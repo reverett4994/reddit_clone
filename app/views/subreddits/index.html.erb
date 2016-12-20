@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Subreddits</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Slug</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @subreddits.each do |subreddit| %>
+      <tr>
+        <td><%= subreddit.name %></td>
+        <td><%= subreddit.description %></td>
+        <td><%= subreddit.slug %></td>
+        <td><%= link_to 'Show', subreddit %></td>
+        <td><%= link_to 'Edit', edit_subreddit_path(subreddit) %></td>
+        <td><%= link_to 'Destroy', subreddit, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+MAKE ADMIN MODEL HAVE IT BELONG TO USER AND HAVE MANY SUBREDDITS THEN EACH USER WILL HAVE A CORISPONDING ADMIN, TO CHECK IF USER IS ADMIN DO IF CURRENT_USER.ADMIN.SUBREDDITS.INCLUDE?(@SUBREDDIT)...<br>
+<%= link_to 'New Subreddit', new_subreddit_path %>

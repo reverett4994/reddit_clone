@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @subreddit.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @subreddit.description %>
+</p>
+<p>
+  <strong>Amount of Subscribers:</strong>
+    <%=@subreddit.users.count%>
+</p>
+<p>
+  <strong>Amount of Posts:</strong>
+    <%=@subreddit.posts.count%>
+</p>
+<p>
+  <strong>Slug:</strong>
+  <%= @subreddit.slug %>
+</p>
+<%= link_to 'Subscribe', subreddit_subscribe_path(id: @subreddit) %> |
+<%= link_to 'Edit', edit_subreddit_path(@subreddit) %> |
+<%= link_to 'Back', subreddits_path %> |
+<%= link_to 'New Post', new_post_path(subreddit: @subreddit.id) %>
