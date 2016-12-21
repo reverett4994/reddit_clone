@@ -7,4 +7,11 @@ class User < ActiveRecord::Base
 
   has_many :posts
   has_and_belongs_to_many :subreddits, :uniq => true
+  has_one :admin
+
+  after_create :create_admin
+
+  def create_admin
+    Admin.create :user_id => self.id
+  end
 end

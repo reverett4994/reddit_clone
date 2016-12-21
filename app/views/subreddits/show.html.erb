@@ -10,6 +10,10 @@
   <%= @subreddit.description %>
 </p>
 <p>
+  <strong>Amount of Mods:</strong>
+    <%=@subreddit.admins.count%>
+</p>
+<p>
   <strong>Amount of Subscribers:</strong>
     <%=@subreddit.users.count%>
 </p>
@@ -22,6 +26,7 @@
   <%= @subreddit.slug %>
 </p>
 <%= link_to 'Subscribe', subreddit_subscribe_path(id: @subreddit) %> |
+<%= link_to 'Become a Mod!', subreddit_admin_path(id: @subreddit) %> |
 <%= link_to 'Edit', edit_subreddit_path(@subreddit) %> |
 <%= link_to 'Back', subreddits_path %> |
 <%= link_to 'New Post', new_post_path(subreddit: @subreddit.id) %>

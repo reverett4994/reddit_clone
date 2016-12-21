@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :admins
   resources :posts
   get 'user/show'
 
@@ -14,6 +15,8 @@ Rails.application.routes.draw do
   #   get 'products/:id' => 'catalog#view'
       get 'user/:username' => 'user#show'
       get 'subreddit/subscribe' =>'subreddits#subscribe'
+      get 'subreddit/admin' =>'subreddits#admin'
+
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
 

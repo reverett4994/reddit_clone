@@ -67,6 +67,12 @@ class SubredditsController < ApplicationController
     current_user.subreddits<<@subreddit unless current_user.subreddits.include?(@subreddit)
   end
 
+  def admin
+    @subreddit=Subreddit.friendly.find(params[:id])
+    @subreddit.admins<<current_user.admin unless @subreddit.admins.include?(current_user.admin)
+    current_user.admin.subreddits<<@subreddit unless current_user.admin.subreddits.include?(@subreddit)
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_subreddit

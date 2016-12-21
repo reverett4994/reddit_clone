@@ -11,7 +11,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161220085528) do
+ActiveRecord::Schema.define(version: 20161221072157) do
+
+  create_table "admins", force: :cascade do |t|
+    t.string   "user_id",    limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  create_table "admins_subreddits", id: false, force: :cascade do |t|
+    t.integer "admin_id",     limit: 4
+    t.integer "subreddit_id", limit: 4
+  end
+
+  add_index "admins_subreddits", ["admin_id"], name: "index_admins_subreddits_on_admin_id", using: :btree
+  add_index "admins_subreddits", ["subreddit_id"], name: "index_admins_subreddits_on_subreddit_id", using: :btree
 
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string   "slug",           limit: 255, null: false
