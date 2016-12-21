@@ -1,0 +1,84 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ */
+ @import "bootstrap-sprockets";
+ @import "bootstrap";
+
+
+/***************************************HEADER************************************************** */
+#header{
+  background-color: red;
+  height: 55px;
+  background-color: #cee3f8;
+  border-bottom: 1px solid #5f99cf;
+  padding-top: 3px;
+}
+#logo{
+  max-height: 48px;
+  display: inline-block;
+  float: left;
+}
+.nav-pills{
+  margin-top: 25px;
+}
+.nav-pills li{
+  background-color: #eff7ff;
+  margin-right: 5px;
+  border-radius: 0;
+  a{
+    padding: 5px;
+    padding-bottom: 0;
+    font-weight: bold;
+    font-size: 14px;
+  }
+}
+.nav-pills > li.active > a {
+    background-color:white;
+    color: #ff4f00;
+    border: 1px solid #5f99cf;
+    border-bottom: none;
+}
+// This changes the color of the active
+
+.nav-pills>li.active>a:hover {
+  background-color: white;
+  color: #ff4f00;
+  border: 1px solid #5f99cf;
+  border-bottom: none;
+}
+/***************************************HEADER************************************************** */
+
+
+/***************************************POST LISTING************************************************** */
+
+.listing{
+  background-color: white;
+  display: inline-block;
+
+}
+#listing_pic{
+  float: left;
+  width:60px;
+  margin-right: 7px;
+}
+.listing_counter{
+  display: inline-block;
+  font-size: 25px;
+  vertical-align: 150%;
+  margin-right: 5px;
+  color: #999;
+}
+
+/***************************************POST LISTING************************************************** */

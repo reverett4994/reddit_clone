@@ -1,0 +1,28 @@
+
+
+  <div class="container-fluid">
+    <div class="listing_counter">
+      <%=counter%>
+    </div>
+    <%= link_to post do %>
+      <div class="listing">
+
+        <!-- Left-aligned media object -->
+        <div class="media">
+          <div class="media-left">
+            <%if post.image_link.present?%>
+              <%=image_tag(post.image_link,alt:"logo.png",:id=>"listing_pic",:class=>"media-object")%>
+            <%else%>
+              <%=image_tag("logo.png",alt:"logo.png",:id=>"listing_pic",:class=>"media-object")%>
+            <%end%>
+          </div>
+          <div class="media-body">
+            <h4 class="media-heading"><%=post.title%></h4>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <%=post.description%>
+          </div>
+        </div>
+        <hr>
+      </div>
+    <%end%>
+  </div>
