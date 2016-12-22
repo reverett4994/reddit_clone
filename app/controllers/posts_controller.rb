@@ -60,6 +60,17 @@ class PostsController < ApplicationController
     end
   end
 
+  def vote
+    @post=Post.where("ID LIKE ?",params[:id])
+    @post=@post.last
+    @vote=params[:vote]
+    if @vote=="up"
+      @post.upvote_by current_user
+    else
+      @post.downvote_by current_user
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_post

@@ -1,26 +1,28 @@
-<p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Title:</strong>
-  <%= @post.title %>
-</p>
-
-<p>
-  <strong>Description:</strong>
-  <%= @post.description %>
-</p>
-
-<p>
-  <strong>Image</strong>
-  <%=image_tag @post.image_link%>
-</p>
-<p>
-  <strong>User:</strong>
-  <%= @post.user.username %>
-</p>
-<p>
-  <strong>subreddit:</strong>
-  <%= @post.subreddit.name %>
-</p>
 <%= link_to 'Edit', edit_post_path(@post) %> |
 <%= link_to 'Back', posts_path %>
+<%= render 'posts/showpost',post: @post,counter:"" %>
+TOTAL VOTES ON: <%= @post.votes_for.size%>
+UPVOTES: <%= @post.get_upvotes.size%>
+DOWNVOTES: <%= @post.get_downvotes.size%>
+
+<p id="vote">VOTE HERE HAHA :(</p>
+
+<script>
+$('#vote').click(function() {
+  $.ajax({
+    type: "POST",
+    url: "/post/vote",
+    dataType:"json",
+    data: { id: 18, vote: "up" },
+    success:function(data) {
+      window.location.assign("/highscores")
+      return false;
+    },
+    error:function(data) {
+      console.log(data);
+      return false;
+    }
+  });
+});
+</script>

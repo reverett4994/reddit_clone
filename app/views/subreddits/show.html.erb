@@ -30,3 +30,32 @@
 <%= link_to 'Edit', edit_subreddit_path(@subreddit) %> |
 <%= link_to 'Back', subreddits_path %> |
 <%= link_to 'New Post', new_post_path(subreddit: @subreddit.id) %>
+<%@counter=1%>
+<% @posts.each do |post| %>
+  <%= render 'posts/showpost',post: post,counter:@counter %>
+  <%@counter+=1%>
+<%end%>
+
+
+
+<script>
+
+$('.upvote').click(function() {
+  console.log("CLICKED");
+  $.ajax({
+    type: "POST",
+    url: "/post/vote",
+    dataType:"json",
+    data: { id: 13,vote: "up" },   SOMETHING IS WRONG WITH THE SYNTAX OF THE DATA VARIBLES BUT THE EXAMPLE ON POSTS/SHOW WORKS ITS CLOSE BUT NOT THERE YET :/
+    success:function(data) {
+      console.log(data);
+      return false;
+    },
+    error:function(data) {
+      console.log(data);
+      return false;
+    };
+  });
+});
+
+</script>

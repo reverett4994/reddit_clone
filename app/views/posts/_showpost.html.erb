@@ -3,26 +3,87 @@
   <div class="container-fluid">
     <div class="listing_counter">
       <%=counter%>
+      <%= link_to "#", class: "btn btn-default upvote",id:"upvote" do %>
+          <i class="glyphicon glyphicon-arrow-up"></i>
+      <% end %><br>
+      <%= link_to "#", class: "btn btn-default",id:"downvote" do %>
+          <i class="glyphicon glyphicon-arrow-down"></i>
+      <% end %>
     </div>
-    <%= link_to post do %>
       <div class="listing">
 
         <!-- Left-aligned media object -->
         <div class="media">
           <div class="media-left">
             <%if post.image_link.present?%>
-              <%=image_tag(post.image_link,alt:"logo.png",:id=>"listing_pic",:class=>"media-object")%>
+              <%=link_to image_tag(post.image_link,alt:"Opps Bad Link :(",:id=>"listing_pic",:class=>"media-object"), post.image_link%>
             <%else%>
               <%=image_tag("logo.png",alt:"logo.png",:id=>"listing_pic",:class=>"media-object")%>
             <%end%>
           </div>
           <div class="media-body">
-            <h4 class="media-heading"><%=post.title%></h4>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-            <%=post.description%>
+            <h4 class="media-heading"><%= link_to post.title, post %></h4>
+            <% time_diffrence=TimeDifference.between(post.created_at, Time.current).in_general %>
+            <% if TimeDifference.between(post.created_at,  Time.current).in_seconds<60 %>
+                <% time_diffrence=TimeDifference.between(post.created_at, Time.current).in_seconds %>
+                <p id='post_time'>Created About <%=time_diffrence.to_i%> seconds ago by
+                                    <%= link_to post.user.username,user_show_path(username: post.user.username) unless post.user==nil%><%= if post.user==nil then "DELETED" end%>
+                                    to /r/<%= link_to post.subreddit.name, post.subreddit %></p>
+
+            <% elsif TimeDifference.between(post.created_at,  Time.current).in_minutes<60 %>
+                <% time_diffrence=TimeDifference.between(post.created_at, Time.current).in_minutes %>
+                 <p id='post_time'>Created About <%=time_diffrence.to_i%> minutes ago by
+                                    <%= link_to post.user.username,user_show_path(username: post.user.username) unless post.user==nil%><%= if post.user==nil then "DELETED" end%>
+                                    to /r/<%= link_to post.subreddit.name, post.subreddit %></p>
+
+            <% elsif TimeDifference.between(post.created_at,  Time.current).in_hours<24 %>
+                <% time_diffrence=TimeDifference.between(post.created_at, Time.current).in_hours %>
+                 <p id='post_time'>Created About <%=time_diffrence.to_i%> hours ago by
+                                    <%= link_to post.user.username,user_show_path(username: post.user.username) unless post.user==nil%><%= if post.user==nil then "DELETED" end%>
+                                    to /r/<%= link_to post.subreddit.name, post.subreddit %></p>
+
+            <% elsif TimeDifference.between(post.created_at,  Time.current).in_days<30 %>
+                <% time_diffrence=TimeDifference.between(post.created_at, Time.current).in_days %>
+                 <p id='post_time'>Created About <%=time_diffrence.to_i%> days ago by
+                                    <%= link_to post.user.username,user_show_path(username: post.user.username) unless post.user==nil%><%= if post.user==nil then "DELETED" end%>
+                                    to /r/<%= link_to post.subreddit.name, post.subreddit %></p>
+
+            <% elsif TimeDifference.between(post.created_at,  Time.current).in_months<12 %>
+                <% time_diffrence=TimeDifference.between(post.created_at, Time.current).in_months %>
+                 <p id='post_time'>Created About <%=time_diffrence.to_i%> months ago by
+                                    <%= link_to post.user.username,user_show_path(username: post.user.username) unless post.user==nil%><%= if post.user==nil then "DELETED" end%>
+                                    to /r/<%= link_to post.subreddit.name, post.subreddit %></p>
+
+            <% elsif TimeDifference.between(post.created_at,  Time.current).in_months<12 %>
+                <% time_diffrence=TimeDifference.between(post.created_at, Time.current).in_years%>
+                 <p id='post_time'>Created About <%=time_diffrence.to_i%> years ago by
+                                    <%= link_to post.user.username,user_show_path(username: post.user.username) unless post.user==nil%><%= if post.user==nil then "DELETED" end%>
+                                    to /r/<%= link_to post.subreddit.name, post.subreddit %></p>
+            <%end%>
           </div>
         </div>
         <hr>
       </div>
-    <%end%>
   </div>
+
+
+  <script>
+
+  $('.upvote').click(function() {
+    $.ajax({
+      type: "POST",
+      url: "/post/vote",
+      dataType:"json",
+      data: { id: 13,vote: "up" },
+      success:function(data) {
+        console.log(data);
+        return false;
+      },
+      error:function(data) {
+        console.log(data);
+        return false;
+      };
+    });
+  });
+
+  </script>

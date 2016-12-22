@@ -16,7 +16,9 @@
  @import "bootstrap-sprockets";
  @import "bootstrap";
 
-
+body{
+  font-family: 'Roboto', sans-serif;
+}
 /***************************************HEADER************************************************** */
 #header{
   background-color: red;
@@ -66,7 +68,7 @@
 .listing{
   background-color: white;
   display: inline-block;
-
+  min-width: 500px;
 }
 #listing_pic{
   float: left;
@@ -76,9 +78,12 @@
 .listing_counter{
   display: inline-block;
   font-size: 25px;
-  vertical-align: 150%;
+  vertical-align: 100%;
   margin-right: 5px;
   color: #999;
+  .btn{
+    float: right;
+  }
 }
 
 /***************************************POST LISTING************************************************** */
