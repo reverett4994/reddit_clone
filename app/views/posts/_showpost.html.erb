@@ -1,14 +1,26 @@
+<%karma=(post.get_upvotes.size)-(post.get_downvotes.size)%>
 
-
-  <div class="container-fluid">
-    <div class="listing_counter">
+  <div class="container-fluid post_container">
+    <div class="listing_counter  <%='disabled_wrapper' unless user_signed_in?%>">
       <%=counter%>
-      <%= link_to "#", class: "btn btn-default upvote",id:"upvote" do %>
-          <i class="glyphicon glyphicon-arrow-up"></i>
-      <% end %><br>
-      <%= link_to "#", class: "btn btn-default",id:"downvote" do %>
-          <i class="glyphicon glyphicon-arrow-down"></i>
-      <% end %>
+      <% if user_signed_in?%>
+        <div class="vote_btn">
+        <%= link_to "#", class: "btn btn-default upvote #{'voted' if current_user.voted_up_on? post} #{'disabled' unless user_signed_in?}",id:post.id do %>
+            <i class="glyphicon glyphicon-arrow-up"></i>
+        <% end %><br><p class="karma" id=<%=post.id%>><%=karma%></p><br>
+        <%= link_to "#", class: "btn btn-default downvote #{'voted' if current_user.voted_down_on? post} #{'disabled' unless user_signed_in?}",id:post.id do %>
+            <i class="glyphicon glyphicon-arrow-down"></i>
+        <% end %>
+      </div>
+      <%else%>
+        <%= link_to "#", class: "btn btn-default upvote #{'disabled' unless user_signed_in?}",id:post.id do %>
+            <i class="glyphicon glyphicon-arrow-up"></i>
+        <% end %><br><p class="karma" id=<%=post.id%>><%=karma%></p><br>
+        <%= link_to "#", class: "btn btn-default downvote #{'disabled' unless user_signed_in?}",id:post.id do %>
+            <i class="glyphicon glyphicon-arrow-down"></i>
+        <% end %>
+      <%end%>
+
     </div>
       <div class="listing">
 
@@ -62,28 +74,58 @@
             <%end%>
           </div>
         </div>
-        <hr>
-      </div>
+      </div><br><br>
   </div>
 
 
   <script>
 
-  $('.upvote').click(function() {
+  $('.upvote').click(function(e) {
+    console.log("CLICKED");
+    var post= $(this).attr("id")
+    $(this ).addClass( "voted" );
+    $("#"+post+".downvote").removeClass("voted");
     $.ajax({
       type: "POST",
       url: "/post/vote",
       dataType:"json",
-      data: { id: 13,vote: "up" },
+      data: {vote:"up",id:post },
       success:function(data) {
-        console.log(data);
+        $("#"+post+".karma").text(data);
         return false;
       },
       error:function(data) {
-        console.log(data);
+        $("#"+post+".karma").text(data);
         return false;
-      };
+      }
     });
+  });
+
+
+  $('.downvote').click(function(e) {
+    console.log("CLICKED");
+    var post= $(this).attr("id")
+    $(this ).addClass( "voted" );
+    $("#"+post+".upvote").removeClass("voted");
+    $.ajax({
+      type: "POST",
+      url: "/post/vote",
+      dataType:"json",
+      data: {vote:"down",id:post },
+      success:function(data) {
+        $("#"+post+".karma").text(data);
+        return false;
+      },
+      error:function(data) {
+        $("#"+post+".karma").text(data);
+        return false;
+      }
+    });
+  });
+
+
+  $('.disabled_wrapper').click(function() {
+    alert("LOG IN TO VOTE!");
   });
 
   </script>

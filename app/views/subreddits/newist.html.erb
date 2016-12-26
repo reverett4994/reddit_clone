@@ -3,7 +3,7 @@
     <%= link_to (image_tag("logo.png",:id=>'logo')),root_path  %>
     <ul class="nav nav-pills">
      <li><a href="/top">Top</a></li>
-     <li><a href="/new">New</a></li>
+     <li class="active"><a href="/new">New</a></li>
      <li><a href="/all">All</a></li>
      <li><a href="#">Controversial</a></li>
      <% if user_signed_in?%>
@@ -11,18 +11,8 @@
        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Your Subreddits
        <span class="caret"></span></a>
        <ul class="dropdown-menu">
-         <%current_user.subreddits.each do |subreddit| %>
-            <li><%= link_to subreddit.name, subreddit %></li>
-         <%end%>
-       </ul>
-     </li>
-     <%else%>
-     <li class="dropdown">
-       <a class="dropdown-toggle" data-toggle="dropdown" href="#">Default Subreddits
-       <span class="caret"></span></a>
-       <ul class="dropdown-menu">
-         <%Subreddit.default.default.each do |subreddit| %>
-            <li><%= link_to subreddit.name, subreddit %></li>
+         <li><%current_user.subreddits.each do |subreddit| %></li>
+          <li><%= link_to subreddit.name, subreddit %></li>
          <%end%>
        </ul>
      </li>
@@ -42,13 +32,9 @@
   </div>
 </div>
 
-
-<%=@user.username%><br>
-<%=@user.email%>
 <%@counter=1%>
-<% @posts.each do |post| %>
+<% @ordered_posts.each do |post| %>
   <%= render 'posts/showpost',post: post,counter:@counter %>
   <%@counter+=1%>
 <%end%>
-<%= will_paginate @posts, :page_links => false %>
-<%= link_to "Edit Account", edit_user_registration_path%>
+<%= will_paginate @ordered_posts, :page_links => false %>

@@ -2,7 +2,7 @@
   <div class="col-xs-12" id="header">
     <%= link_to (image_tag("logo.png",:id=>'logo')),root_path  %>
     <ul class="nav nav-pills">
-     <li><a href="/top">Top</a></li>
+     <li class="active"><a href="/top">Top</a></li>
      <li><a href="/new">New</a></li>
      <li><a href="/all">All</a></li>
      <li><a href="#">Controversial</a></li>
@@ -41,14 +41,16 @@
    </ul>
   </div>
 </div>
+<div class="row">
+  <div class="col-md-9 col-xs-12 ">
+    <%@counter=1%>
+    <% @ordered_posts_keys.each do |post| %>
+      <%= render 'posts/showpost',post: post,counter:@counter %>
+      <%@counter+=1%>
+    <%end%>
+    <%= will_paginate @ordered_posts_keys, :page_links => false %>
+  </div>
 
-
-<%=@user.username%><br>
-<%=@user.email%>
-<%@counter=1%>
-<% @posts.each do |post| %>
-  <%= render 'posts/showpost',post: post,counter:@counter %>
-  <%@counter+=1%>
-<%end%>
-<%= will_paginate @posts, :page_links => false %>
-<%= link_to "Edit Account", edit_user_registration_path%>
+  <div class="hidden-xs hidden-sm col-md-3 red">
+  </div>
+</div>

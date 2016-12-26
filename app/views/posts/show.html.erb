@@ -6,23 +6,7 @@ TOTAL VOTES ON: <%= @post.votes_for.size%>
 UPVOTES: <%= @post.get_upvotes.size%>
 DOWNVOTES: <%= @post.get_downvotes.size%>
 
-<p id="vote">VOTE HERE HAHA :(</p>
 
 <script>
-$('#vote').click(function() {
-  $.ajax({
-    type: "POST",
-    url: "/post/vote",
-    dataType:"json",
-    data: { id: 18, vote: "up" },
-    success:function(data) {
-      window.location.assign("/highscores")
-      return false;
-    },
-    error:function(data) {
-      console.log(data);
-      return false;
-    }
-  });
-});
+
 </script>

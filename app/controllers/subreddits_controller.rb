@@ -1,5 +1,6 @@
 class SubredditsController < ApplicationController
   before_action :set_subreddit, only: [:show, :edit, :update, :destroy]
+  WillPaginate.per_page = 3
 
   # GET /subreddits
   # GET /subreddits.json
@@ -11,6 +12,56 @@ class SubredditsController < ApplicationController
   # GET /subreddits/1.json
   def show
     @posts=@subreddit.posts
+  end
+
+  def top
+    if user_signed_in?
+      @subreddits=current_user.subreddits
+    else
+      @subreddits=Subreddit.default
+    end
+    @posts=[]
+    @subreddits.each do |subreddit|
+      @posts+=subreddit.posts
+    end
+    @posts_sorted={}
+    @posts.each do |post|
+      @posts_sorted[post]=(post.get_upvotes.size)-(post.get_dislikes.size)
+    end
+    @ordered_posts = ActiveSupport::OrderedHash[*@posts_sorted.sort_by{|k,v| v}.reverse.flatten]
+    @ordered_posts_keys= @ordered_posts.keys.paginate(:page => params[:page])
+
+  end
+
+  def newist
+    @posts=[]
+    if user_signed_in?
+      @subreddits=current_user.subreddits
+    else
+      @subreddits=Subreddit.default
+    end
+    @subreddits.each do |subreddit|
+      @posts+=subreddit.posts
+    end
+    @ordered_posts=@posts.sort_by &:created_at
+    @ordered_posts.reverse!
+    @ordered_posts= @ordered_posts.paginate(:page => params[:page])
+
+  end
+
+  def all
+    @posts=[]
+    @subreddits=Subreddit.all
+    @subreddits.each do |subreddit|
+      @posts+=subreddit.posts
+    end
+    @posts_sorted={}
+    @posts.each do |post|
+      @posts_sorted[post]=(post.get_upvotes.size)-(post.get_dislikes.size)
+    end
+    @ordered_posts = ActiveSupport::OrderedHash[*@posts_sorted.sort_by{|k,v| v}.reverse.flatten]
+    @ordered_posts_keys= @ordered_posts.keys.paginate(:page => params[:page])
+
   end
 
   # GET /subreddits/new

@@ -26,6 +26,7 @@ body{
   background-color: #cee3f8;
   border-bottom: 1px solid #5f99cf;
   padding-top: 3px;
+  overflow: hidden;
 }
 #logo{
   max-height: 48px;
@@ -60,6 +61,17 @@ body{
   border: 1px solid #5f99cf;
   border-bottom: none;
 }
+
+.right{
+  float: right;
+  background-color: #eff7ff;
+  li{
+    padding: 5px;
+    padding-bottom: 0;
+    font-weight: bold;
+    font-size: 14px;
+  }
+}
 /***************************************HEADER************************************************** */
 
 
@@ -69,6 +81,24 @@ body{
   background-color: white;
   display: inline-block;
   min-width: 500px;
+  min-height: 100px;
+}
+#post_time{
+  min-width: 500px;
+}
+.post_container{
+  white-space: nowrap;
+}
+@media only screen and (max-width: 610px) {
+    .listing {
+
+    }
+    #post_time{
+      min-width: 0;
+    }
+    .post_container{
+      width: 100%;
+    }
 }
 #listing_pic{
   float: left;
@@ -78,12 +108,33 @@ body{
 .listing_counter{
   display: inline-block;
   font-size: 25px;
-  vertical-align: 100%;
   margin-right: 5px;
   color: #999;
   .btn{
     float: right;
   }
 }
+.karma{
+  font-size: 17px;
+  float: right;
+  font-weight: bold;
+  padding-right: 15px;
+  padding-top: 5px;
+  margin-bottom: 0;
+}
+.voted{
+  background-color: #ff4f00 !important;
+}
+.btn-default.voted:hover{
+  background-color: #ff4f00;
+}
+.vote_btn{
+  display: inline-block;
+}
 
 /***************************************POST LISTING************************************************** */
+
+.red{
+  background-color: red;
+  height: 100px;
+}

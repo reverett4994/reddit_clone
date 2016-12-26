@@ -55,3 +55,5 @@ gem 'bootstrap-sass', '~> 3.2.0'
 gem 'time_difference'
 
 gem 'acts_as_votable', '~> 0.10.0'
+
+gem 'will_paginate', '~> 3.1.0'

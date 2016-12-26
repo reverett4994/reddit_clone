@@ -2,47 +2,17 @@
 <html>
 <head>
   <title>RedditClone</title>
-  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
-<div class="row">
-  <div class="col-xs-12" id="header">
-    <%= link_to (image_tag("logo.png",:id=>'logo')),root_path  %>
 
-    <ul class="nav nav-pills">
-     <li class="active"><a href="#">Hot</a></li>
-     <li><a href="#">New</a></li>
-     <li><a href="#">Rising</a></li>
-     <li><a href="#">Controversial</a></li>
-     <% if user_signed_in?%>
-     <li class="dropdown">
-       <a class="dropdown-toggle" data-toggle="dropdown" href="#">Your Subreddits
-       <span class="caret"></span></a>
-       <ul class="dropdown-menu">
-         <%current_user.subreddits.each do |subreddit| %>
-            <li><%= link_to subreddit.name, subreddit %></li>
-         <%end%>
-       </ul>
-     </li>
-     <%end%>
-   </ul>
-  </div>
-</div>
 <body>
-  <div id='login'>
-    <% if user_signed_in? %>
-    Hello: <%=current_user.email%> <br>
-    <%= link_to('Logout', destroy_user_session_path, :method => :delete) %>
-  <% else %>
-    <%= link_to('Login', new_user_session_path)  %>
-  <% end %>
-</div>
 
-  <p class="notice"><%= notice %></p>
-  <p class="alert"><%= alert %></p>
 <%= yield %>
-
+<p class="notice"><%= notice %></p>
+<p class="alert"><%= alert %></p>
 </body>
 </html>

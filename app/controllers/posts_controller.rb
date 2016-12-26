@@ -66,9 +66,15 @@ class PostsController < ApplicationController
     @vote=params[:vote]
     if @vote=="up"
       @post.upvote_by current_user
+      #ADD A @post.unliked_by @user1 IN AN IF STATMENT!!
     else
       @post.downvote_by current_user
+      #ADD A @post.undisliked_by @user1 IN AN IF STATMENT!!
     end
+    respond_to do |format|
+    format.xml  { render :xml => @post }
+    format.json { render :json => (@post.get_upvotes.size)-(@post.get_downvotes.size) }
+  end
   end
 
   private
