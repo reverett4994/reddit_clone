@@ -133,6 +133,6 @@ class SubredditsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def subreddit_params
-      params.require(:subreddit).permit(:name, :description, :slug)
+      params.require(:subreddit).permit(:name, :description, :slug,:image_url)
     end
 end

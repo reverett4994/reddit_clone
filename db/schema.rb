@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161226081611) do
+ActiveRecord::Schema.define(version: 20161228081957) do
 
   create_table "admins", force: :cascade do |t|
     t.string   "user_id",    limit: 255
@@ -57,6 +57,7 @@ ActiveRecord::Schema.define(version: 20161226081611) do
     t.datetime "created_at",                                null: false
     t.datetime "updated_at",                                null: false
     t.boolean  "frontpage",                 default: false
+    t.string   "image_url",   limit: 255
   end
 
   add_index "subreddits", ["slug"], name: "index_subreddits_on_slug", unique: true, using: :btree

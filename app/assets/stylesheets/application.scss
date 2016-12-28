@@ -26,13 +26,33 @@ body{
   background-color: #cee3f8;
   border-bottom: 1px solid #5f99cf;
   padding-top: 3px;
-  overflow: hidden;
+  margin-bottom: 15px;
 }
 #logo{
   max-height: 48px;
   display: inline-block;
   float: left;
 }
+@media only screen and (max-width: 660px) {
+    #logo{
+      display: none;
+    }
+  }
+@media only screen and (max-width: 515px) {
+    #header{
+      height:85px;
+    }
+    #header .right{
+      clear: both;
+      float: left !important;
+      margin-top: 5px;
+    }
+}
+@media only screen and (max-width: 380px) {
+    #optional{
+      display: none;
+    }
+  }
 .nav-pills{
   margin-top: 25px;
 }
@@ -80,36 +100,41 @@ body{
 .listing{
   background-color: white;
   display: inline-block;
-  min-width: 500px;
+  width:80%;
   min-height: 100px;
 }
 #post_time{
   min-width: 500px;
 }
 .post_container{
-  white-space: nowrap;
+  clear: both;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #666;
+  margin-left: 10px;
 }
-@media only screen and (max-width: 610px) {
-    .listing {
-
-    }
-    #post_time{
-      min-width: 0;
-    }
-    .post_container{
-      width: 100%;
+.counter{
+  display: inline-block;
+  margin: 0;
+}
+@media only screen and (max-width: 605px) {
+    .counter{
+      display: none;
     }
 }
 #listing_pic{
   float: left;
   width:60px;
-  margin-right: 7px;
+  height: 100%;
+  object-fit: cover; /* Do not scale the image */
+  object-position: center; /* Center the image within the element */
 }
 .listing_counter{
   display: inline-block;
   font-size: 25px;
   margin-right: 5px;
   color: #999;
+  float: left;
+  width: 10%;
   .btn{
     float: right;
   }
@@ -131,10 +156,53 @@ body{
 .vote_btn{
   display: inline-block;
 }
+.post_placeholder{
+  background-image: url("post_placeholder.jpg");
+  width:60px;
+  height: 60px;
+  background-size: auto 100%;
+  background-repeat: no-repeat;
+  display: inline-block;
+  float: left;
+  margin-right: 7px;
+  margin-left: 7px;
+}
 
 /***************************************POST LISTING************************************************** */
 
-.red{
-  background-color: red;
-  height: 100px;
+
+
+/***************************************SUBREDDIT PAGE************************************************* */
+
+.sidebar{
+  background-color: #e6e6e6;
 }
+#subreddit_image_div{
+  width: 99%;
+  background-image: url("missing-image.jpg");
+  min-height: 200px;
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  margin-top: 5px;
+}
+#subreddit_image{
+  width: 100%;
+  height: auto;
+  margin-right: auto;
+  margin-left: auto;
+}
+.new_post_btn{
+  width: 75%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.subscribe_btn{
+  width: 75%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 10px;
+}
+
+/***************************************SUBREDDIT PAGE************************************************* */

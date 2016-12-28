@@ -1,8 +1,8 @@
 <%karma=(post.get_upvotes.size)-(post.get_downvotes.size)%>
 
-  <div class="container-fluid post_container">
+  <div class="post_container">
     <div class="listing_counter  <%='disabled_wrapper' unless user_signed_in?%>">
-      <%=counter%>
+      <p class="counter"><%=counter%></p>
       <% if user_signed_in?%>
         <div class="vote_btn">
         <%= link_to "#", class: "btn btn-default upvote #{'voted' if current_user.voted_up_on? post} #{'disabled' unless user_signed_in?}",id:post.id do %>
@@ -28,7 +28,9 @@
         <div class="media">
           <div class="media-left">
             <%if post.image_link.present?%>
-              <%=link_to image_tag(post.image_link,alt:"Opps Bad Link :(",:id=>"listing_pic",:class=>"media-object"), post.image_link%>
+              <div class="post_placeholder">
+                <%=link_to image_tag(post.image_link,alt:"",:id=>"listing_pic",:class=>"media-object"), post.image_link%>
+              </div>
             <%else%>
               <%=image_tag("logo.png",alt:"logo.png",:id=>"listing_pic",:class=>"media-object")%>
             <%end%>
@@ -76,6 +78,11 @@
         </div>
       </div><br><br>
   </div>
+
+
+
+
+
 
 
   <script>

@@ -1,54 +1,62 @@
-<div class="row">
-  <div class="col-xs-12" id="header">
-    <%= link_to (image_tag("logo.png",:id=>'logo')),root_path  %>
-    <ul class="nav nav-pills">
-     <li><a href="/top">Top</a></li>
-     <li><a href="/new">New</a></li>
-     <li><a href="/all">All</a></li>
-     <li><a href="#">Controversial</a></li>
-     <% if user_signed_in?%>
-     <li class="dropdown">
-       <a class="dropdown-toggle" data-toggle="dropdown" href="#">Your Subreddits
-       <span class="caret"></span></a>
-       <ul class="dropdown-menu">
-         <%current_user.subreddits.each do |subreddit| %>
-            <li><%= link_to subreddit.name, subreddit %></li>
-         <%end%>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-12" id="header">
+      <%= link_to (image_tag("logo.png",:id=>'logo')),root_path  %>
+      <ul class="nav nav-pills">
+       <li><a href="/top">Top</a></li>
+       <li><a href="/new">New</a></li>
+       <li><a href="/all">All</a></li>
+       <li id="optional"><a href="#">Controversial</a></li>
+       <% if user_signed_in?%>
+       <li class="dropdown">
+         <a class="dropdown-toggle" data-toggle="dropdown" href="#">Your Subreddits
+         <span class="caret"></span></a>
+         <ul class="dropdown-menu">
+           <%current_user.subreddits.each do |subreddit| %>
+              <li><%= link_to subreddit.name, subreddit %></li>
+           <%end%>
+         </ul>
+       </li>
+       <%else%>
+       <li class="dropdown">
+         <a class="dropdown-toggle" data-toggle="dropdown" href="#">Default Subreddits
+         <span class="caret"></span></a>
+         <ul class="dropdown-menu">
+           <%Subreddit.default.default.each do |subreddit| %>
+              <li><%= link_to subreddit.name, subreddit %></li>
+           <%end%>
+         </ul>
+       </li>
+       <%end%>
+       <% if user_signed_in?%>
+         <ul class="list-inline right header_user">
+          <li><a href="/user/<%=current_user.username%>"><%=current_user.username%></a></li>
+          <li><%= link_to('Logout', destroy_user_session_path, :method => :delete) %></li>
+        </ul>
+        <%else%>
+        <ul class="list-inline right header_user">
+         <li><%= link_to('Login',new_user_session_path)%></li>
+         <li><%= link_to('Sign Up',new_user_registration_path)%></li>
        </ul>
-     </li>
-     <%else%>
-     <li class="dropdown">
-       <a class="dropdown-toggle" data-toggle="dropdown" href="#">Default Subreddits
-       <span class="caret"></span></a>
-       <ul class="dropdown-menu">
-         <%Subreddit.default.default.each do |subreddit| %>
-            <li><%= link_to subreddit.name, subreddit %></li>
-         <%end%>
-       </ul>
-     </li>
-     <%end%>
-     <% if user_signed_in?%>
-       <ul class="list-inline right">
-        <li><a href="/user/<%=current_user.username%>"><%=current_user.username%></a></li>
-        <li><%= link_to('Logout', destroy_user_session_path, :method => :delete) %></li>
-      </ul>
-      <%else%>
-      <ul class="list-inline right">
-       <li><%= link_to('Login',new_user_session_path)%></li>
-       <li><%= link_to('Sign Up',new_user_registration_path)%></li>
+       <%end%>
      </ul>
-     <%end%>
-   </ul>
+    </div>
   </div>
+
+
+  <%=@user.username%><br>
+  <%=@user.email%>
+  <div class="row">
+    <div class="col-md-9 col-xs-12 ">
+  <%@counter=1%>
+  <% @posts.each do |post| %>
+    <%= render 'posts/showpost',post: post,counter:@counter %>
+    <%@counter+=1%>
+  <%end%>
+  </div>
+
+  <div class="hidden-xs hidden-sm col-md-3 red"></div>
+  </div>
+  <%= will_paginate @posts, :page_links => false %>
+  <%= link_to "Edit Account", edit_user_registration_path%>
 </div>
-
-
-<%=@user.username%><br>
-<%=@user.email%>
-<%@counter=1%>
-<% @posts.each do |post| %>
-  <%= render 'posts/showpost',post: post,counter:@counter %>
-  <%@counter+=1%>
-<%end%>
-<%= will_paginate @posts, :page_links => false %>
-<%= link_to "Edit Account", edit_user_registration_path%>

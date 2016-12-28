@@ -1,40 +1,97 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-12" id="header">
+      <%= link_to (image_tag("logo.png",:id=>'logo')),root_path  %>
+      <ul class="nav nav-pills">
+       <li><a href="/top">Top</a></li>
+       <li><a href="/new">New</a></li>
+       <li><a href="/all">All</a></li>
+       <li id="optional"><a href="#">Controversial</a></li>
+       <% if user_signed_in?%>
+       <li class="dropdown">
+         <a class="dropdown-toggle" data-toggle="dropdown" href="#">Your Subreddits
+         <span class="caret"></span></a>
+         <ul class="dropdown-menu">
+           <%current_user.subreddits.each do |subreddit| %>
+              <li><%= link_to subreddit.name, subreddit %></li>
+           <%end%>
+         </ul>
+       </li>
+       <%else%>
+       <li class="dropdown">
+         <a class="dropdown-toggle" data-toggle="dropdown" href="#">Default Subreddits
+         <span class="caret"></span></a>
+         <ul class="dropdown-menu">
+           <%Subreddit.default.default.each do |subreddit| %>
+              <li><%= link_to subreddit.name, subreddit %></li>
+           <%end%>
+         </ul>
+       </li>
+       <%end%>
+       <% if user_signed_in?%>
+         <ul class="list-inline right header_user">
+          <li><a href="/user/<%=current_user.username%>"><%=current_user.username%></a></li>
+          <li><%= link_to('Logout', destroy_user_session_path, :method => :delete) %></li>
+        </ul>
+        <%else%>
+        <ul class="list-inline right header_user">
+         <li><%= link_to('Login',new_user_session_path)%></li>
+         <li><%= link_to('Sign Up',new_user_registration_path)%></li>
+       </ul>
+       <%end%>
+     </ul>
+    </div>
+  </div>
 
-<p>
-  <strong>Name:</strong>
-  <%= @subreddit.name %>
-</p>
+  <%= link_to 'Subscribe', subreddit_subscribe_path(id: @subreddit) %> |
+  <%= link_to 'Become a Mod!', subreddit_admin_path(id: @subreddit) %> |
+  <%= link_to 'Edit', edit_subreddit_path(@subreddit) %> |
+  <%= link_to 'Back', subreddits_path %> |
+  <%= link_to 'New Post', new_post_path(subreddit: @subreddit.id) %>
 
-<p>
-  <strong>Description:</strong>
-  <%= @subreddit.description %>
-</p>
-<p>
-  <strong>Amount of Mods:</strong>
-    <%=@subreddit.admins.count%>
-</p>
-<p>
-  <strong>Amount of Subscribers:</strong>
-    <%=@subreddit.users.count%>
-</p>
-<p>
-  <strong>Amount of Posts:</strong>
-    <%=@subreddit.posts.count%>
-</p>
-<p>
-  <strong>Slug:</strong>
-  <%= @subreddit.slug %>
-</p>
-<%= link_to 'Subscribe', subreddit_subscribe_path(id: @subreddit) %> |
-<%= link_to 'Become a Mod!', subreddit_admin_path(id: @subreddit) %> |
-<%= link_to 'Edit', edit_subreddit_path(@subreddit) %> |
-<%= link_to 'Back', subreddits_path %> |
-<%= link_to 'New Post', new_post_path(subreddit: @subreddit.id) %>
-<%@counter=1%>
-<% @posts.each do |post| %>
-  <%= render 'posts/showpost',post: post,counter:@counter %>
-  <%@counter+=1%>
-<%end%>
+  <div class="row">
+    <div class="col-md-9 col-xs-12 ">
+      <%@counter=1%>
+      <% @posts.each do |post| %>
+        <%= render 'posts/showpost',post: post,counter:@counter %>
+        <%@counter+=1%>
+      <%end%>
+    </div>
 
+    <div class="hidden-xs hidden-sm col-md-3 sidebar">
+      <%if current_user.admin.subreddits.include? @subreddit%>
+        <h2>Mod Controls</h2>
+        <%= link_to 'Edit Subreddit', edit_subreddit_path(@subreddit) %>
+      <%end%>
+      <div id="subreddit_image_div">
+        <%=image_tag(@subreddit.image_url,id:"subreddit_image")%>
+      </div>
+      <h2><%=@subreddit.name%></h2>
+      <% if current_user.subreddits.include? @subreddit %>
+      <%= link_to 'Un-Subscribe NEED TO CODE!!', subreddit_subscribe_path(id: @subreddit),class:"btn btn-warning subscribe_btn btn-lg" %>
+
+      <%else%>
+      <%= link_to 'Subscribe', subreddit_subscribe_path(id: @subreddit),class:"btn btn-success subscribe_btn btn-lg" %>
+      <%end%>
+      <%= link_to 'New Post', new_post_path(subreddit: @subreddit.id),class:"btn btn-info new_post_btn btn-lg" %>
+      <h3>Number of Subscribers</h3>
+      <p><%=@subreddit.users.count%></p>
+      <h3>Subreddit Description</h3>
+      <p><%= @subreddit.description %></p>
+      <h3>Subreddit Rules</h3>
+      <p>Some rules here.Some more things to follow here.Some rules here.Some more things to follow here.</p>
+      <h3>Message from the Mod(s)</h3>
+      <p>Some rules here.Some more things to follow here.Some rules here.Some more things to follow here.</p>
+      <h3>List of Mod(s)</h3>
+      <ul>
+        <% @subreddit.admins.each do |mod|%>
+          <li><%= link_to mod.user.username,user_show_path(username: mod.user.username) unless mod.user==nil%>
+        <%end%>
+      </ul>
+      <h3>Want to Become a Mod?</h3>
+    </div>
+  </div>
+</div>
 
 
 <script>
