@@ -1,4 +1,3 @@
-
 <div class="container">
 <%= bootstrap_form_for(@subreddit, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10") do |f| %>
   <% if @subreddit.errors.any? %>
@@ -26,13 +25,30 @@
     <%= f.text_area :message %>
   </div>
   <div class="form-group">
-    <%= f.password_field :password %>
-  </div>
-  <div class="form-group">
-    <%= f.password_field :password_confirmation %>
-  </div>
-  <div class="form-group">
     <%= f.text_field :image_url %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+<h3>New Subreddit Password (is required for new mods)</h3>
+<%= bootstrap_form_for(@subreddit, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10") do |f| %>
+  <% if @subreddit.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@subreddit.errors.count, "error") %> prohibited this subreddit from being saved:</h2>
+
+      <ul>
+      <% @subreddit.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="form-group">
+    <%= f.password_field :password, label: "New Password" %>
+  </div>
+  <div class="form-group">
+    <%= f.password_field :password_confirmation, label: "New Password Confirmation" %>
   </div>
   <div class="actions">
     <%= f.submit %>

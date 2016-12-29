@@ -1,33 +1,31 @@
-<%= form_for(@post) do |f| %>
-  <% if @post.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@post.errors.count, "error") %> prohibited this post from being saved:</h2>
+<div class="container">
+  <%= bootstrap_form_for(@post, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10") do |f| %>
+    <% if @post.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@post.errors.count, "error") %> prohibited this post from being saved:</h2>
 
-      <ul>
-      <% @post.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+        <ul>
+        <% @post.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="field">
+      <%= f.text_field :title %>
+    </div>
+    <div class="field">
+      <%= f.text_area :description %>
+    </div>
+    <div class="field">
+      <%= f.text_field :image_link %>
+    </div>
+    <div class="field">
+      <%= f.text_field :subreddit_id,value: params[:subreddit] %>
+    </div>
+    <div class="actions">
+      <%= f.submit %>
     </div>
   <% end %>
-
-  <div class="field">
-    <%= f.label :title %><br>
-    <%= f.text_field :title %>
-  </div>
-  <div class="field">
-    <%= f.label :description %><br>
-    <%= f.text_area :description %>
-  </div>
-  <div class="field">
-    <%= f.label :image_link %><br>
-    <%= f.text_field :image_link %>
-  </div>
-  <div class="field">
-    <%= f.label :subreddit_id %><br>
-    <%= f.text_field :subreddit_id,value: params[:subreddit] %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-<% end %>
+</div>

@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   #   get 'products/:id' => 'catalog#view'
       get 'user/:username' => 'user#show'
       get 'subreddit/subscribe' =>'subreddits#subscribe'
+      get 'subreddit/unsubscribe' =>'subreddits#unsubscribe'
       get 'subreddit/admin' =>'subreddits#admin'
       get '/top' =>'subreddits#top'
       get '/new' =>'subreddits#newist'
