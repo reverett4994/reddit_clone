@@ -2,9 +2,20 @@
   <div class="row">
     <div class="col-xs-12" id="header">
       <%= link_to (image_tag("logo.png",:id=>'logo')),root_path  %>
+      <% if @focus != false%>
+        <h4 id="subreddit_header_name"><%=@focus%>:</h4>
+      <%end%>
       <ul class="nav nav-pills">
-       <li class="active"><a href="/top">Top</a></li>
-       <li><a href="/new">New</a></li>
+        <% if @focus != false%>
+          <li class="active"><%=link_to "Top",top_path(subreddit:@focus)%></li>
+        <%else%>
+         <li class="active"><a href="/top">Top</a></li>
+        <%end%>
+        <% if @focus != false%>
+          <li><%=link_to "New",new_path(subreddit:@focus)%></li>
+        <%else%>
+         <li><a href="/new">New</a></li>
+        <%end%>
        <li><a href="/all">All</a></li>
        <li id="optional"><a href="#">Controversial</a></li>
        <% if user_signed_in?%>
@@ -53,5 +64,56 @@
     </div>
 
     <div class="hidden-xs hidden-sm col-md-3 red"></div>
+
+
+  <%if @subreddit!=nil%>
+  <div class="hidden-xs hidden-sm col-md-3 sidebar">
+    <%if user_signed_in?%>
+      <%if current_user.admin.subreddits.include? @subreddit%>
+        <h2>Mod Controls</h2>
+        <%= link_to 'Edit Subreddit', edit_subreddit_path(@subreddit) %>
+      <%end%>
+    <%end%>
+    <div id="subreddit_image_div">
+      <%=image_tag(@subreddit.image_url,id:"subreddit_image")%>
+    </div>
+    <h2><%=@subreddit.name%></h2>
+    <% if user_signed_in?%>
+      <% if current_user.subreddits.include? @subreddit %>
+      <%= link_to 'Unsubscribe', subreddit_unsubscribe_path(id: @subreddit),class:"btn btn-warning subscribe_btn btn-lg", data: { confirm: 'Are you sure?' } %>
+      <%else%>
+      <%= link_to 'Subscribe', subreddit_subscribe_path(id: @subreddit),class:"btn btn-success subscribe_btn btn-lg" %>
+      <%end%>
+    <%end%>
+    <%= link_to 'New Post', new_post_path(subreddit: @subreddit.id),class:"btn btn-info new_post_btn btn-lg" %>
+    <h3>Number of Subscribers</h3>
+    <p><%=@subreddit.users.count%></p>
+    <h3>Subreddit Description</h3>
+    <p><%= @subreddit.description %></p>
+    <h3>Subreddit Rules</h3>
+    <p><%=@subreddit.rules%></p>
+    <h3>Message from the Mod(s)</h3>
+    <p><%=@subreddit.message%></p>
+    <h3>List of Mod(s)</h3>
+    <ul>
+      <% @subreddit.admins.each do |mod|%>
+        <li><%= link_to mod.user.username,user_show_path(username: mod.user.username) unless mod.user==nil%>
+      <%end%>
+    </ul>
+    <%if current_user.admin.subreddits.include? (@subreddit)%>
+      <h3>Want to Cancel Mod Status?</h3>
+      <%= link_to 'Remove Mod Status!', subreddit_removeadmin_path(id:@subreddit),data: { confirm: 'Are you sure?' }%>
+    <%else%>
+      <h3>Want to Become a Mod?</h3>
+      <%= link_to 'Become a Mod!', "#",class:"show_form" %>
+      <%=form_tag({controller: "subreddits", action: "admin"}, method: "get", class: "hidden_form") do%>
+      <%=hidden_field_tag 'id', @subreddit.name%>
+      <%=text_field_tag 'password',"",placeholder:"Subreddit Password",class:"form-control"%>
+      <%=submit_tag "Become Mod", class:"btn btn-info",data: { confirm: 'Are you sure?' }%>
+      <%end%>
+    <%end%>
   </div>
+  <%end%>
+</div>
+
 </div>

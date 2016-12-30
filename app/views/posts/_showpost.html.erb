@@ -74,6 +74,9 @@
                                     <%= link_to post.user.username,user_show_path(username: post.user.username) unless post.user==nil%><%= if post.user==nil then "DELETED" end%>
                                     to /r/<%= link_to post.subreddit.name, post.subreddit %></p>
             <%end%>
+            <% if post.user != nil && post.user==current_user%>
+              <%= link_to 'Delete', post, method: :delete, data: { confirm: 'Are you sure?' } %>
+            <%end%>
           </div>
         </div>
       </div><br><br>

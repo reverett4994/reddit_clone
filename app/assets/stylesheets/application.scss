@@ -34,22 +34,31 @@ body{
   display: inline-block;
   float: left;
 }
-@media only screen and (max-width: 660px) {
+@media only screen and (max-width: 740px) {
+    /*
     #logo{
       display: none;
     }
-  }
-@media only screen and (max-width: 515px) {
-    #header{
-      height:85px;
+    */
+    .nav-pills{
+      clear: left;
     }
+    #header{
+      height: 90px;
+    }
+  }
+@media only screen and (max-width: 405px) {
+
     #header .right{
       clear: both;
       float: left !important;
       margin-top: 5px;
     }
+    #header{
+      height: 120px;
+    }
 }
-@media only screen and (max-width: 380px) {
+@media only screen and (max-width: 520px) {
     #optional{
       display: none;
     }
@@ -174,7 +183,19 @@ body{
 
 
 /***************************************SUBREDDIT PAGE************************************************* */
-
+#header_left{
+  background-color: red;
+  max-width: 65px;
+  display: inline-block;
+}
+#subreddit_header_name{
+  display: inline;
+  float: left;
+  font-weight: bolder;
+  margin-left: 2px;
+  margin-right: 7px;
+  margin-top: 30px;
+}
 .sidebar{
   background-color: #e6e6e6;
 }
@@ -205,5 +226,7 @@ body{
   margin-right: auto;
   margin-bottom: 10px;
 }
-
+.hidden_form{
+  display: none;
+}
 /***************************************SUBREDDIT PAGE************************************************* */

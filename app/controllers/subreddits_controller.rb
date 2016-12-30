@@ -1,6 +1,6 @@
 class SubredditsController < ApplicationController
   before_action :set_subreddit, only: [:show, :edit, :update, :destroy]
-  WillPaginate.per_page = 3
+  WillPaginate.per_page = 5
 
   # GET /subreddits
   # GET /subreddits.json
@@ -12,15 +12,9 @@ class SubredditsController < ApplicationController
   # GET /subreddits/1.json
   def show
     @posts=@subreddit.posts
-  end
-
-  def top
-    if user_signed_in?
-      @subreddits=current_user.subreddits
-    else
-      @subreddits=Subreddit.default
-    end
+    @subreddit=Subreddit.friendly.find(params[:id])
     @posts=[]
+    @subreddits=Subreddit.where("name LIKE ?",params[:id])
     @subreddits.each do |subreddit|
       @posts+=subreddit.posts
     end
@@ -30,22 +24,70 @@ class SubredditsController < ApplicationController
     end
     @ordered_posts = ActiveSupport::OrderedHash[*@posts_sorted.sort_by{|k,v| v}.reverse.flatten]
     @ordered_posts_keys= @ordered_posts.keys.paginate(:page => params[:page])
+  end
 
+  def top
+    if params[:subreddit]==nil
+      @focus=false
+      if user_signed_in?
+        @subreddits=current_user.subreddits
+      else
+        @subreddits=Subreddit.default
+      end
+      @posts=[]
+      @subreddits.each do |subreddit|
+        @posts+=subreddit.posts
+      end
+      @posts_sorted={}
+      @posts.each do |post|
+        @posts_sorted[post]=(post.get_upvotes.size)-(post.get_dislikes.size)
+      end
+      @ordered_posts = ActiveSupport::OrderedHash[*@posts_sorted.sort_by{|k,v| v}.reverse.flatten]
+      @ordered_posts_keys= @ordered_posts.keys.paginate(:page => params[:page])
+    else
+      @focus=params[:subreddit]
+      @subreddit=Subreddit.friendly.find(params[:subreddit])
+      @posts=[]
+      @subreddits=Subreddit.where("name LIKE ?",params[:subreddit])
+      @subreddits.each do |subreddit|
+        @posts+=subreddit.posts
+      end
+      @posts_sorted={}
+      @posts.each do |post|
+        @posts_sorted[post]=(post.get_upvotes.size)-(post.get_dislikes.size)
+      end
+      @ordered_posts = ActiveSupport::OrderedHash[*@posts_sorted.sort_by{|k,v| v}.reverse.flatten]
+      @ordered_posts_keys= @ordered_posts.keys.paginate(:page => params[:page])
+    end
   end
 
   def newist
-    @posts=[]
-    if user_signed_in?
-      @subreddits=current_user.subreddits
+    if params[:subreddit]==nil
+      @focus=false
+      @posts=[]
+      if user_signed_in?
+        @subreddits=current_user.subreddits
+      else
+        @subreddits=Subreddit.default
+      end
+      @subreddits.each do |subreddit|
+        @posts+=subreddit.posts
+      end
+      @ordered_posts=@posts.sort_by &:created_at
+      @ordered_posts.reverse!
+      @ordered_posts= @ordered_posts.paginate(:page => params[:page])
     else
-      @subreddits=Subreddit.default
+      @focus=params[:subreddit]
+      @subreddit=Subreddit.friendly.find(params[:subreddit])
+      @posts=[]
+      @subreddits=Subreddit.where("name LIKE ?",params[:subreddit])
+      @subreddits.each do |subreddit|
+        @posts+=subreddit.posts
+      end
+      @ordered_posts=@posts.sort_by &:created_at
+      @ordered_posts.reverse!
+      @ordered_posts= @ordered_posts.paginate(:page => params[:page])
     end
-    @subreddits.each do |subreddit|
-      @posts+=subreddit.posts
-    end
-    @ordered_posts=@posts.sort_by &:created_at
-    @ordered_posts.reverse!
-    @ordered_posts= @ordered_posts.paginate(:page => params[:page])
   end
 
   def all
@@ -135,8 +177,25 @@ class SubredditsController < ApplicationController
 
   def admin
     @subreddit=Subreddit.friendly.find(params[:id])
-    @subreddit.admins<<current_user.admin unless @subreddit.admins.include?(current_user.admin)
-    current_user.admin.subreddits<<@subreddit unless current_user.admin.subreddits.include?(@subreddit)
+    @password_attempt=params[:password]
+    if @subreddit.password==@password_attempt
+      @password_attempt='worked!'
+      @subreddit.admins<<current_user.admin unless @subreddit.admins.include?(current_user.admin)
+      current_user.admin.subreddits<<@subreddit unless current_user.admin.subreddits.include?(@subreddit)
+      redirect_to(:back)
+      flash[:success] ="Password was Correct! Your Now a Mod of #{@subreddit.name}!"
+    else
+      redirect_to(:back)
+      flash[:danger] ="Password was Incorrect!"
+    end
+  end
+  def removeadmin
+    @subreddit=Subreddit.friendly.find(params[:id])
+      @password_attempt='worked!'
+      @subreddit.admins-=[current_user.admin]
+      current_user.admin.subreddits-=[@subreddit]
+      redirect_to(:back)
+      flash[:success] ="You Are no Longer a Mod of #{@subreddit.name}!"
   end
 
   private

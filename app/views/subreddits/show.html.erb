@@ -2,9 +2,10 @@
   <div class="row">
     <div class="col-xs-12" id="header">
       <%= link_to (image_tag("logo.png",:id=>'logo')),root_path  %>
+      <h4 id="subreddit_header_name"><%=@subreddit.name%>:</h4>
       <ul class="nav nav-pills">
-       <li><a href="/top">Top</a></li>
-       <li><a href="/new">New</a></li>
+       <li><%=link_to "Top",top_path(subreddit:@subreddit)%></li>
+       <li><%=link_to "New",new_path(subreddit:@subreddit)%></li>
        <li><a href="/all">All</a></li>
        <li id="optional"><a href="#">Controversial</a></li>
        <% if user_signed_in?%>
@@ -51,10 +52,11 @@
   <div class="row">
     <div class="col-md-9 col-xs-12 ">
       <%@counter=1%>
-      <% @posts.each do |post| %>
+      <% @ordered_posts_keys.each do |post| %>
         <%= render 'posts/showpost',post: post,counter:@counter %>
         <%@counter+=1%>
       <%end%>
+      <%= will_paginate @ordered_posts_keys, :page_links => false %>
     </div>
 
     <div class="hidden-xs hidden-sm col-md-3 sidebar">
@@ -90,10 +92,19 @@
           <li><%= link_to mod.user.username,user_show_path(username: mod.user.username) unless mod.user==nil%>
         <%end%>
       </ul>
-      <h3>Want to Become a Mod?</h3>
-      <%= link_to 'Become a Mod!', subreddit_admin_path(id: @subreddit) %>
-      <% if @subreddit.message == ""%>
-        <p>NIL</p>
+      <% if user_signed_in?%>
+        <%if current_user.admin.subreddits.include? (@subreddit)%>
+          <h3>Want to Cancel Mod Status?</h3>
+          <%= link_to 'Remove Mod Status!', subreddit_removeadmin_path(id:@subreddit),data: { confirm: 'Are you sure?' }%>
+        <%else%>
+          <h3>Want to Become a Mod?</h3>
+          <%= link_to 'Become a Mod!', "#",class:"show_form" %>
+          <%=form_tag({controller: "subreddits", action: "admin"}, method: "get", class: "hidden_form") do%>
+          <%=hidden_field_tag 'id', @subreddit.name%>
+          <%=text_field_tag 'password',"",placeholder:"Subreddit Password",class:"form-control"%>
+          <%=submit_tag "Become Mod", class:"btn btn-info",data: { confirm: 'Are you sure?' }%>
+          <%end%>
+        <%end%>
       <%end%>
     </div>
   </div>
@@ -102,6 +113,9 @@
 
 <script>
 
+$(".show_form").click(function(e){
+  $(".hidden_form").fadeToggle();
+})
 
 
 </script>

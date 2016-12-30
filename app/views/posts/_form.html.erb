@@ -22,7 +22,7 @@
       <%= f.text_field :image_link %>
     </div>
     <div class="field">
-      <%= f.text_field :subreddit_id,value: params[:subreddit] %>
+      <%= f.hidden_field :subreddit_id,value: params[:subreddit] %>
     </div>
     <div class="actions">
       <%= f.submit %>

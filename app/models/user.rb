@@ -11,6 +11,7 @@ class User < ActiveRecord::Base
 
   after_create :create_admin
   before_destroy :destroy_admin
+  before_destroy {|object| object.subreddits.clear}
   def create_admin
     Admin.create :user_id => self.id
   end

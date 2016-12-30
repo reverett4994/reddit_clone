@@ -10,13 +10,14 @@ Rails.application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
-    root 'subreddits#index'
+    root 'subreddits#top'
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
       get 'user/:username' => 'user#show'
       get 'subreddit/subscribe' =>'subreddits#subscribe'
       get 'subreddit/unsubscribe' =>'subreddits#unsubscribe'
       get 'subreddit/admin' =>'subreddits#admin'
+      get 'subreddit/removeadmin' =>'subreddits#removeadmin'
       get '/top' =>'subreddits#top'
       get '/new' =>'subreddits#newist'
       get '/all' => 'subreddits#all'
