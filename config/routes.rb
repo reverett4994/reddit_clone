@@ -21,6 +21,8 @@ Rails.application.routes.draw do
       get '/top' =>'subreddits#top'
       get '/new' =>'subreddits#newist'
       get '/all' => 'subreddits#all'
+      get '/search' => 'subreddits#search'
+
       post 'post/vote' =>'posts#vote'
 
   # Example of named route that can be invoked with purchase_url(id: product.id)

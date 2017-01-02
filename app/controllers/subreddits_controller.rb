@@ -11,6 +11,7 @@ class SubredditsController < ApplicationController
   # GET /subreddits/1
   # GET /subreddits/1.json
   def show
+    redirect_to top_path(subreddit:@subreddit)
     @posts=@subreddit.posts
     @subreddit=Subreddit.friendly.find(params[:id])
     @posts=[]
@@ -61,6 +62,20 @@ class SubredditsController < ApplicationController
     end
   end
 
+  def all
+    @posts=[]
+    @subreddits=Subreddit.all
+    @subreddits.each do |subreddit|
+      @posts+=subreddit.posts
+    end
+    @posts_sorted={}
+    @posts.each do |post|
+      @posts_sorted[post]=(post.get_upvotes.size)-(post.get_dislikes.size)
+    end
+    @ordered_posts = ActiveSupport::OrderedHash[*@posts_sorted.sort_by{|k,v| v}.reverse.flatten]
+    @ordered_posts_keys= @ordered_posts.keys.paginate(:page => params[:page])
+  end
+
   def newist
     if params[:subreddit]==nil
       @focus=false
@@ -90,19 +105,8 @@ class SubredditsController < ApplicationController
     end
   end
 
-  def all
-    @posts=[]
-    @subreddits=Subreddit.all
-    @subreddits.each do |subreddit|
-      @posts+=subreddit.posts
-    end
-    @posts_sorted={}
-    @posts.each do |post|
-      @posts_sorted[post]=(post.get_upvotes.size)-(post.get_dislikes.size)
-    end
-    @ordered_posts = ActiveSupport::OrderedHash[*@posts_sorted.sort_by{|k,v| v}.reverse.flatten]
-    @ordered_posts_keys= @ordered_posts.keys.paginate(:page => params[:page])
-
+  def search
+    
   end
 
   # GET /subreddits/new

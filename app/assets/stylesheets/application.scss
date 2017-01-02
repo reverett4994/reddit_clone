@@ -12,6 +12,7 @@
  *
  *= require_tree .
  *= require rails_bootstrap_forms
+ *= require sweetalert
  *= require_self
  */
  @import "bootstrap-sprockets";
@@ -198,6 +199,7 @@ body{
 }
 .sidebar{
   background-color: #e6e6e6;
+  overflow: hidden;
 }
 #subreddit_image_div{
   width: 99%;
@@ -229,4 +231,51 @@ body{
 .hidden_form{
   display: none;
 }
+
+.sidebar_login{
+  padding: 1em;
+  margin: 0 -1em;
+  border-bottom: 5px solid #5bc0de;
+  padding-top: 0;
+}
+.ad{
+  height: 100px;
+  width: 100%;
+  border: 1px solid black;
+  margin-bottom: 15px;
+  background-image: url("ad.jpg");
+  background-position: center center;
+
+}
+.adone{
+  height: 100px;
+  width: 100%;
+  border: 1px solid black;
+  margin-bottom: 15px;
+  margin-top: 15px;
+  background-image: url("ad.jpg");
+  background-position: center center;
+}
+
+.sidebar_search{
+  height: 35px;
+  border-bottom: 5px solid #5bc0de;
+
+}
+.search {
+    width: 170px;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+    float: right;
+    margin-top: -8px;
+}
+
+/* When the input field gets focus, change its width to 100% */
+.search:focus {
+    width: 100%;
+}
+.inner-addon .glyphicon {
+  margin-top: -8px;
+}
+
 /***************************************SUBREDDIT PAGE************************************************* */

@@ -44,14 +44,12 @@
   </div>
   <div class="row">
     <div class="col-md-9 col-xs-12 ">
-  <%@counter=1%>
-  <% @ordered_posts_keys.each do |post| %>
-    <%= render 'posts/showpost',post: post,counter:@counter %>
-    <%@counter+=1%>
-  <%end%>
-  <%= will_paginate @ordered_posts_keys, :page_links => false %>
-  </div>
+      <% @ordered_posts_keys.each_with_index do |post,counter| %>
+        <%= render 'posts/showpost',post: post,counter:@ordered_posts_keys.offset + counter + 1 %>
+      <%end%>
+      <%= will_paginate @ordered_posts_keys, :page_links => false %>
+    </div>
 
-  <div class="hidden-xs hidden-sm col-md-3 red"></div>
+  <%= render "defaultsidebar" %>
   </div>
 </div>

@@ -1,0 +1,44 @@
+<div class="hidden-xs hidden-sm col-md-3 sidebar">
+  <div class="sidebar_search inner-addon left-addon">
+    <%= bootstrap_form_for(:user, :url => session_path(:user)) do |f| %>
+      <%= f.text_field :email,placeholder:"Search Subreddit",hide_label: true, icon: "search",class:"search" %>
+    <% end %>
+    <h3 id="search_header">Search</h3>
+  </div>
+  <%if user_signed_in?%>
+    <%if current_user.admin.subreddits.include? @subreddit%>
+      <h2>Mod Controls</h2>
+      <%= link_to 'Edit Subreddit', edit_subreddit_path(@subreddit) %>
+    <%end%>
+    <%else%>
+    <div class="sidebar_login">
+      <h3>Sign In</h3>
+      <%= bootstrap_form_for(:user, :url => session_path(:user)) do |f| %>
+        <%= f.text_field :email,placeholder:"Your Email",hide_label: true, icon: "user" %>
+        <%= f.password_field :password,placeholder:"Your Password",hide_label: true%>
+        <%= f.check_box :remember_me %>
+        <%= f.submit 'Sign in' %>
+        <%= link_to "Forgot your password?", new_password_path(:user) %> |
+        <%= link_to'Sign Up',new_user_registration_path%>
+      <% end %>
+    </div>
+  <%end%>
+  <div id="subreddit_image_div">
+    <%=image_tag("photo.jpg",id:"subreddit_image")%>
+  </div>
+  <div class="adone"></div>
+  <h2>Reddit: The Front Page of The Internet!</h2>
+  <div class="ad"></div>
+
+</div>
+<script>
+$('.search').focus(function() {
+  $("#search_header").text("");
+  $(".sidebar_search").css({"border-color":"#ff4f00"});
+});
+
+$('.search').focusout(function() {
+  $("#search_header").text("Search");
+  $(".sidebar_search").css({"border-color":"#5bc0de"});
+});
+</script>

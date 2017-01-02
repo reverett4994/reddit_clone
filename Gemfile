@@ -61,3 +61,5 @@ gem 'will_paginate', '~> 3.1.0'
 gem 'bcrypt', '~> 3.1.7'
 
 gem 'bootstrap_form'
+
+gem 'sweetalert-rails'
