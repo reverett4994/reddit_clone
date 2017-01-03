@@ -238,6 +238,10 @@ body{
   border-bottom: 5px solid #5bc0de;
   padding-top: 0;
 }
+#default_sidebar_header{
+  text-align: center;
+
+}
 .ad{
   height: 100px;
   width: 100%;
@@ -260,7 +264,6 @@ body{
 .sidebar_search{
   height: 35px;
   border-bottom: 5px solid #5bc0de;
-
 }
 .search {
     width: 170px;
@@ -279,3 +282,56 @@ body{
 }
 
 /***************************************SUBREDDIT PAGE************************************************* */
+
+
+/***************************************SEARCH PAGE************************************************* */
+
+.subreddit_listing{
+    min-height: 100px;
+    padding-left: 10px;
+    padding-top: 5px;
+    border-bottom: 2px solid #e5e3da;
+    a{
+      font-size: 25px;
+    }
+    p:nth-child(2){
+      font-size: 14px;
+      color: #666;
+    }
+    p:nth-child(3){
+      margin-top: 10px;
+      font-size: 18px;
+      color: #4d4d4d;
+    }
+}
+#subreddit_search_error{
+  margin-top: 75px;
+  text-align: center;
+}
+
+/***************************************SEARCH PAGE************************************************* */
+
+
+/***************************************USER PAGE************************************************* */
+
+#user_header{
+  margin-top: 0px;
+  display: inline-block;
+}
+#user_header_right{
+  margin-top: 0px;
+  margin-right: 10px;
+  display: inline-block;
+  float: right;
+}
+.user_nav{
+  margin-bottom: 15px;
+}
+#liked{
+  display: none;
+}
+#disliked{
+  display: none;
+}
+
+/***************************************USER PAGE************************************************* */

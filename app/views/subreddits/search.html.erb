@@ -1,0 +1,63 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-12" id="header">
+      <%= link_to (image_tag("logo.png",:id=>'logo')),root_path  %>
+      <ul class="nav nav-pills">
+       <li><a href="/top">Top</a></li>
+       <li><a href="/new">New</a></li>
+       <li><a href="/all">All</a></li>
+       <li id="optional"><a href="#">Controversial</a></li>
+       <% if user_signed_in?%>
+       <li class="dropdown">
+         <a class="dropdown-toggle" data-toggle="dropdown" href="#">Your Subreddits
+         <span class="caret"></span></a>
+         <ul class="dropdown-menu">
+           <%current_user.subreddits.each do |subreddit| %>
+              <li><%= link_to subreddit.name, subreddit %></li>
+           <%end%>
+         </ul>
+       </li>
+       <%else%>
+       <li class="dropdown">
+         <a class="dropdown-toggle" data-toggle="dropdown" href="#">Default Subreddits
+         <span class="caret"></span></a>
+         <ul class="dropdown-menu">
+           <%Subreddit.default.default.each do |subreddit| %>
+              <li><%= link_to subreddit.name, subreddit %></li>
+           <%end%>
+         </ul>
+       </li>
+       <%end%>
+       <% if user_signed_in?%>
+         <ul class="list-inline right">
+          <li><a href="/user/<%=current_user.username%>"><%=current_user.username%></a></li>
+          <li><%= link_to('Logout', destroy_user_session_path, :method => :delete) %></li>
+        </ul>
+        <%else%>
+        <ul class="list-inline right">
+         <li><%= link_to('Login',new_user_session_path)%></li>
+         <li><%= link_to('Sign Up',new_user_registration_path)%></li>
+       </ul>
+       <%end%>
+     </ul>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-9 col-xs-12 ">
+      <h2>Subreddits Like '<%=@search%>'</h2>
+      <% @subreddits.each do |subreddit| %>
+        <div class="subreddit_listing">
+          <%=link_to subreddit.name,subreddit%>
+          <p><%=subreddit.users.count%> subscribers</p>
+          <p><%=subreddit.description%></p>
+        </div>
+      <%end%>
+      <% if @subreddits.count == 0 %>
+        <h3 id="subreddit_search_error">There Was No Matches! Try Again.</h3>
+      <%end%>
+      <%= will_paginate @subreddits, :page_links => false %>
+    </div>
+
+  <%= render "defaultsidebar" %>
+  </div>
+</div>

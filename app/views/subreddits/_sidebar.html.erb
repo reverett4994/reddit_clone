@@ -1,7 +1,7 @@
 <div class="hidden-xs hidden-sm col-md-3 sidebar">
   <div class="sidebar_search inner-addon left-addon">
-    <%= bootstrap_form_for(:user, :url => session_path(:user)) do |f| %>
-      <%= f.text_field :email,placeholder:"Search Subreddit",hide_label: true, icon: "search",class:"search" %>
+    <%= bootstrap_form_tag(url:"/search", :method => :get) do |f| %>
+      <%= f.text_field :search,placeholder:"Search Subreddit",hide_label: true, icon: "search",class:"search" %>
     <% end %>
     <h3 id="search_header">Search</h3>
   </div>

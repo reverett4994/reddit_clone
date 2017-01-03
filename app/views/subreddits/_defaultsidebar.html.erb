@@ -1,7 +1,7 @@
 <div class="hidden-xs hidden-sm col-md-3 sidebar">
   <div class="sidebar_search inner-addon left-addon">
-    <%= bootstrap_form_for(:user, :url => session_path(:user)) do |f| %>
-      <%= f.text_field :email,placeholder:"Search Subreddit",hide_label: true, icon: "search",class:"search" %>
+    <%= bootstrap_form_tag(url:"/search", :method => :get) do |f| %>
+      <%= f.text_field :search,placeholder:"Search Subreddit",hide_label: true, icon: "search",class:"search" %>
     <% end %>
     <h3 id="search_header">Search</h3>
   </div>
@@ -27,7 +27,7 @@
     <%=image_tag("photo.jpg",id:"subreddit_image")%>
   </div>
   <div class="adone"></div>
-  <h2>Reddit: The Front Page of The Internet!</h2>
+  <h2 id="default_sidebar_header">Reddit: The Front Page of The Internet!</h2>
   <div class="ad"></div>
 
 </div>
@@ -40,5 +40,13 @@ $('.search').focus(function() {
 $('.search').focusout(function() {
   $("#search_header").text("Search");
   $(".sidebar_search").css({"border-color":"#5bc0de"});
+});
+
+$('.sidebar_login input').focus(function() {
+  $(".sidebar_login").css({"border-color":"#ff4f00"});
+});
+
+$('.sidebar_login input').focusout(function() {
+  $(".sidebar_login").css({"border-color":"#5bc0de"});
 });
 </script>

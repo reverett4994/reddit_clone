@@ -106,7 +106,10 @@ class SubredditsController < ApplicationController
   end
 
   def search
-    
+    @search=params[:search]
+    @subreddits=Subreddit.where("name LIKE ?",@search)
+    @subreddits= @subreddits.paginate(:page => params[:page])
+
   end
 
   # GET /subreddits/new

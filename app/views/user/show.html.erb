@@ -29,12 +29,12 @@
        </li>
        <%end%>
        <% if user_signed_in?%>
-         <ul class="list-inline right header_user">
+         <ul class="list-inline right">
           <li><a href="/user/<%=current_user.username%>"><%=current_user.username%></a></li>
           <li><%= link_to('Logout', destroy_user_session_path, :method => :delete) %></li>
         </ul>
         <%else%>
-        <ul class="list-inline right header_user">
+        <ul class="list-inline right">
          <li><%= link_to('Login',new_user_session_path)%></li>
          <li><%= link_to('Sign Up',new_user_registration_path)%></li>
        </ul>
@@ -42,21 +42,76 @@
      </ul>
     </div>
   </div>
+  <h2 id="user_header">User: <%=@user.username%> </h2>
+  <h3 id="user_header_right">
+    <%=@post_karma%> Post Karma<br
+    >0 Comment Karma
+    <%if current_user==@user%>
+      <br><%= link_to "Edit Account",edit_user_registration_path%>
+    <%end%>
+  </h3>
 
-
-  <%=@user.username%><br>
-  <%=@user.email%>
+  <ul class="nav nav-tabs user_nav">
+  <li class="active submitted_link"><a href="#" id="submitted_link">Submitted</a></li>
+  <li class="liked_link"><a href="#" id="liked_link">Liked</a></li>
+  <li class="disliked_link"><a href="#" id="disliked_link">Disliked</a></li>
+</ul>
   <div class="row">
     <div class="col-md-9 col-xs-12 ">
-  <%@counter=1%>
-  <% @posts.each do |post| %>
-    <%= render 'posts/showpost',post: post,counter:@counter %>
-    <%@counter+=1%>
-  <%end%>
+      <div id="submitted">
+        <% @posts.each_with_index do |post,counter| %>
+          <%= render 'posts/showpost',post: post,counter:@posts.offset + counter + 1 %>
+        <%end%>
+        <%= will_paginate @posts, :page_links => false %>
+      </div>
+      <div id="liked">
+        <% @liked.each_with_index do |post,counter| %>
+          <%= render 'posts/showpost',post: post,counter:@posts.offset + counter + 1 %>
+        <%end%>
+        <%= will_paginate @liked, :page_links => false %>
+      </div>
+      <div id="disliked">
+        <% @disliked.each_with_index do |post,counter| %>
+          <%= render 'posts/showpost',post: post,counter:@posts.offset + counter + 1 %>
+        <%end%>
+        <%= will_paginate @disliked, :page_links => false %>
+      </div>
+    </div>
+  <%= render "subreddits/defaultsidebar" %>
   </div>
-
-  <div class="hidden-xs hidden-sm col-md-3 red"></div>
-  </div>
-  <%= will_paginate @posts, :page_links => false %>
-  <%= link_to "Edit Account", edit_user_registration_path%>
 </div>
+
+
+
+
+<script>
+$('#submitted_link').click(function() {
+  $("#submitted").fadeIn("slow");
+  $("#disliked").fadeOut("fast");
+  $("#liked").fadeOut("fast");
+
+  $(".submitted_link").addClass( "active" );
+  $(".liked_link").removeClass( "active" );
+  $(".disliked_link").removeClass( "active" );
+});
+$('#liked_link').click(function() {
+  $("#liked").fadeIn("slow");
+  $("#submitted").fadeOut("fast");
+  $("#disliked").fadeOut("fast");
+
+  $(".liked_link").addClass( "active" );
+  $(".disliked_link").removeClass( "active" );
+  $(".submitted_link").removeClass( "active" );
+});
+$('#disliked_link').click(function() {
+  $("#disliked").fadeIn("slow");
+  $("#submitted").fadeOut("fast");
+  $("#liked").fadeOut("fast");
+
+  $(".disliked_link").addClass( "active" );
+  $(".liked_link").removeClass( "active" );
+  $(".submitted_link").removeClass( "active" );
+});
+
+
+</script>
