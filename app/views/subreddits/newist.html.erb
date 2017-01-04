@@ -53,6 +53,12 @@
      </ul>
     </div>
   </div>
+  <% flash.each do |key, value| %>
+        <div class="<%= flash_class(key) %>">
+              <%= value %>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+  <% end %>
   <div class="row">
     <div class="col-md-9 col-xs-12 ">
   <% @ordered_posts.each_with_index do |post,counter| %>
@@ -69,3 +75,27 @@
   <%end%>
   </div>
 </div>
+
+
+<%if @subreddit!=nil%>
+  <div id='slider'>
+    <%= render "subreddits/sidebarmobile" %>
+  </div>
+  <button id='trigger'><span class="glyphicon glyphicon-th-list"></span></button>
+<%else%>
+  <div id='slider'>
+    <%= render "subreddits/defaultsidebarmobile" %>
+  </div>
+  <button id='trigger'><span class="glyphicon glyphicon-th-list"></span></button>
+<%end%>
+
+<script>
+$('#slider').slideReveal({
+  trigger: $("#trigger"),
+  position:"right",
+  width:"415px",
+  top:70,
+  push: false,
+  overlay: true
+});
+</script>

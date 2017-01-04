@@ -1,9 +1,9 @@
-<div class="hidden-xs hidden-sm col-md-3 sidebar">
+<div class="sidebar">
   <div class="sidebar_search inner-addon left-addon">
     <%= bootstrap_form_tag(url:"/search", :method => :get) do |f| %>
       <%= f.text_field :search,placeholder:"Search Subreddit",hide_label: true, icon: "search",class:"search" %>
     <% end %>
-    <h3 id="search_header" class="search_header">Search</h3>
+    <h3 id="search_header">Search</h3>
   </div>
   <%if user_signed_in?%>
     <%if current_user.admin.subreddits.include? @subreddit%>
@@ -29,8 +29,8 @@
   <div class="adone"></div>
   <h2 id="default_sidebar_header">Reddit: The Front Page of The Internet!</h2>
   <div class="ad"></div>
-</div>
 
+</div>
 <script>
 $('.search').focus(function() {
   $("#search_header").text("");

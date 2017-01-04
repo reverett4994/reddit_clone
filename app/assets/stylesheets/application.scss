@@ -13,6 +13,7 @@
  *= require_tree .
  *= require rails_bootstrap_forms
  *= require sweetalert
+ *= require jasny-bootstrap.min
  *= require_self
  */
  @import "bootstrap-sprockets";
@@ -23,7 +24,6 @@ body{
 }
 /***************************************HEADER************************************************** */
 #header{
-  background-color: red;
   height: 55px;
   background-color: #cee3f8;
   border-bottom: 1px solid #5f99cf;
@@ -35,35 +35,39 @@ body{
   display: inline-block;
   float: left;
 }
-@media only screen and (max-width: 740px) {
+@media only screen and (max-width: 680px) {
     /*
     #logo{
       display: none;
     }
     */
-    .nav-pills{
-      clear: left;
-    }
-    #header{
-      height: 90px;
-    }
-  }
-@media only screen and (max-width: 405px) {
-
     #header .right{
       clear: both;
-      float: left !important;
       margin-top: 5px;
     }
     #header{
-      height: 120px;
+      height: 85px;
     }
-}
-@media only screen and (max-width: 520px) {
+  }
+@media only screen and (max-width: 547px) {
     #optional{
       display: none;
     }
   }
+@media only screen and (max-width: 445px) {
+
+    #header{
+      height: 107px;
+    }
+    .nav-pills{
+      margin-top: 25px;
+      clear: left;
+    }
+    #header .right{
+      float: left;
+    }
+}
+
 .nav-pills{
   margin-top: 25px;
 }
@@ -280,9 +284,54 @@ body{
 .inner-addon .glyphicon {
   margin-top: -8px;
 }
-
+@media only screen and (max-width: 1098px) {
+    .search_header{
+      font-size: 20px;
+    }
+  }
+  @media only screen and (max-width: 1050px) {
+      .search_header{
+        font-size: 15px;
+      }
+    }
 /***************************************SUBREDDIT PAGE************************************************* */
 
+/*************************************** MOBILE SIDEBAR ************************************************* */
+
+
+#trigger{
+  position: fixed;
+   right: 5px;
+   top: 30%;
+   z-index: 10;
+   display: none;
+   width:50px;
+   height:50px;
+   line-height:50px;
+   border: 2px solid #464646;
+   border-radius: 50%;
+   color:#f5f5f5;
+   text-align:center;
+   text-decoration:none;
+   background: #ff4f00;
+   box-shadow: 0 0 3px gray;
+   font-size:20px;
+   font-weight:bold;
+   .glyphicon{
+     color: #464646;
+   }
+}
+@media only screen and (max-width: 992px) {
+    #trigger{
+      display:block;
+    }
+  }
+
+
+#slider{
+  overflow: scroll;
+}
+/*************************************** MOBILE SIDEBAR ************************************************* */
 
 /***************************************SEARCH PAGE************************************************* */
 

@@ -63,3 +63,5 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'bootstrap_form'
 
 gem 'sweetalert-rails'
+
+gem 'jasny-bootstrap-rails'

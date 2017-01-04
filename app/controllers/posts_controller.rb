@@ -27,7 +27,8 @@ class PostsController < ApplicationController
     @post = current_user.posts.build(post_params)
     respond_to do |format|
       if @post.save
-        format.html { redirect_to @post, notice: 'Post was successfully created.' }
+        flash[:success]= 'Post Was Created'
+        format.html { redirect_to @post.subreddit }
         format.json { render :show, status: :created, location: @post }
       else
         format.html { render :new }
@@ -55,7 +56,8 @@ class PostsController < ApplicationController
   def destroy
     @post.destroy
     respond_to do |format|
-      format.html { redirect_to posts_url, notice: 'Post was successfully destroyed.' }
+      flash[:success]= "Post Was Deleted"
+      format.html { redirect_to :back}
       format.json { head :no_content }
     end
   end

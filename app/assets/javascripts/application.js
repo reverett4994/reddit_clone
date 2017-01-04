@@ -14,4 +14,5 @@
 //= require jquery_ujs
 //= require sweetalert
 //= require bootstrap-sprockets
+//= require jasny-bootstrap.min
 //= require_tree .

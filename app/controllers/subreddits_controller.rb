@@ -1,6 +1,6 @@
 class SubredditsController < ApplicationController
   before_action :set_subreddit, only: [:show, :edit, :update, :destroy]
-  WillPaginate.per_page = 5
+  WillPaginate.per_page = 10
 
   # GET /subreddits
   # GET /subreddits.json
