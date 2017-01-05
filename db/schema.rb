@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161229074840) do
+ActiveRecord::Schema.define(version: 20170105074535) do
 
   create_table "admins", force: :cascade do |t|
     t.string   "user_id",    limit: 255
@@ -26,6 +26,23 @@ ActiveRecord::Schema.define(version: 20161229074840) do
 
   add_index "admins_subreddits", ["admin_id"], name: "index_admins_subreddits_on_admin_id", using: :btree
   add_index "admins_subreddits", ["subreddit_id"], name: "index_admins_subreddits_on_subreddit_id", using: :btree
+
+  create_table "comments", force: :cascade do |t|
+    t.integer  "commentable_id",   limit: 4
+    t.string   "commentable_type", limit: 255
+    t.string   "title",            limit: 255
+    t.text     "body",             limit: 65535
+    t.string   "subject",          limit: 255
+    t.integer  "user_id",          limit: 4,     null: false
+    t.integer  "parent_id",        limit: 4
+    t.integer  "lft",              limit: 4
+    t.integer  "rgt",              limit: 4
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "comments", ["commentable_id", "commentable_type"], name: "index_comments_on_commentable_id_and_commentable_type", using: :btree
+  add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
 
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string   "slug",           limit: 255, null: false

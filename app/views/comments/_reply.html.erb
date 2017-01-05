@@ -1,0 +1,144 @@
+<% comments.each do |comment| %>
+<%karma=(comment.get_upvotes.size)-(comment.get_downvotes.size)%>
+  <div class="comments-show">
+    <div class="comment_listing_counter  <%='disabled_wrapper' unless user_signed_in?%>">
+      <p class="counter"></p>
+      <% if user_signed_in?%>
+        <div class="vote_btn">
+        <%= link_to "#", class: "btn btn-default upvote comment_upvote #{'voted' if current_user.voted_up_on? comment} #{'disabled' unless user_signed_in?}",id:comment.id do %>
+            <i class="glyphicon glyphicon-arrow-up"></i>
+        <% end %><br>
+        <%= link_to "#", class: "btn btn-default downvote comment_downvote #{'voted' if current_user.voted_down_on? comment} #{'disabled' unless user_signed_in?}",id:comment.id do %>
+            <i class="glyphicon glyphicon-arrow-down"></i>
+        <% end %>
+      </div>
+      <%else%>
+        <%= link_to "#", class: "btn btn-default upvote comment_upvote #{'disabled' unless user_signed_in?}",id:comment.id do %>
+            <i class="glyphicon glyphicon-arrow-up"></i>
+        <% end %><br>
+        <%= link_to "#", class: "btn btn-default downvote comment_downvote #{'disabled' unless user_signed_in?}",id:comment.id do %>
+            <i class="glyphicon glyphicon-arrow-down"></i>
+        <% end %>
+      <%end%>
+
+    </div>
+    <div class="comment">
+      <a href="/user/<%=comment.user.username%>"><%=comment.user.username%></a>
+      <p class="comment_karma" id=<%=comment.id%>><%=karma%> points</p>
+
+      <% time_diffrence=TimeDifference.between(comment.created_at, Time.current).in_general %>
+      <% if TimeDifference.between(comment.created_at,  Time.current).in_seconds<60 %>
+          <% time_diffrence=TimeDifference.between(comment.created_at, Time.current).in_seconds %>
+          <p id='comment_time'>Created About <%=time_diffrence.to_i%> seconds ago by</p>
+
+      <% elsif TimeDifference.between(comment.created_at,  Time.current).in_minutes<60 %>
+          <% time_diffrence=TimeDifference.between(comment.created_at, Time.current).in_minutes %>
+           <p id='comment_time'>Created About <%=time_diffrence.to_i%> minutes ago by</p>
+
+      <% elsif TimeDifference.between(comment.created_at,  Time.current).in_hours<24 %>
+          <% time_diffrence=TimeDifference.between(comment.created_at, Time.current).in_hours %>
+           <p id='comment_time'>Created About <%=time_diffrence.to_i%> hours ago by</p>
+
+      <% elsif TimeDifference.between(comment.created_at,  Time.current).in_days<30 %>
+          <% time_diffrence=TimeDifference.between(comment.created_at, Time.current).in_days %>
+           <p id='comment_time'>Created About <%=time_diffrence.to_i%> days ago by</p>
+
+      <% elsif TimeDifference.between(comment.created_at,  Time.current).in_months<12 %>
+          <% time_diffrence=TimeDifference.between(comment.created_at, Time.current).in_months %>
+           <p id='comment_time'>Created About <%=time_diffrence.to_i%> months ago by</p>
+
+      <% elsif TimeDifference.between(comment.created_at,  Time.current).in_months<12 %>
+          <% time_diffrence=TimeDifference.between(comment.created_at, Time.current).in_years%>
+           <p id='comment_time'>Created About <%=time_diffrence.to_i%> years ago by</p>
+      <%end%>
+
+      <br>
+      <p><%= comment.body %><br></p>
+      <%if user_signed_in?%>
+        <div class="comment-nav"><a href="#" class="comment-reply">reply</a></div>
+        <div class="reply-form">
+            <%= form_for @new_comment do |f| %>
+              <%= f.hidden_field :commentable_id, value: @new_comment.commentable_id %>
+              <%= f.hidden_field :commentable_type, value: @new_comment.commentable_type %>
+              <%= f.hidden_field :comment_id, value: comment.id %>
+              <div class="field form-group">
+                <%= f.text_area :body, class: 'form-control' %>
+              </div>
+              <div class="field form-group">
+                <%= submit_tag "comment Reply", class: 'btn btn-primary' %>
+              </div>
+            <% end %>
+        </div>
+      <%else%>
+      <div class="comment-nav"></div>
+
+      <%end%>
+    </div>
+    <%= render partial: "comments/reply", locals: {comments: comment.children} %>
+  </div>
+<% end %>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+
+$('.upvote').click(function(e) {
+
+  var comment= $(this).attr("id")
+  console.log(comment);
+  $(this ).addClass( "voted" );
+  $("#"+comment+".downvote").removeClass("voted");
+  $.ajax({
+    type: "POST",
+    url: "/comment/vote",
+    dataType:"json",
+    data: {vote:"up",id:comment },
+    success:function(data) {
+      $("#"+comment+".comment_karma").text(data+" points");
+      return false;
+    },
+    error:function(data) {
+      $("#"+comment+".comment_karma").text(data+" points");
+      return false;
+    }
+  });
+});
+
+
+$('.downvote').click(function(e) {
+  console.log("CLICKED");
+  var comment= $(this).attr("id")
+  $(this ).addClass( "voted" );
+  $("#"+comment+".upvote").removeClass("voted");
+  $.ajax({
+    type: "POST",
+    url: "/comment/vote",
+    dataType:"json",
+    data: {vote:"down",id:comment },
+    success:function(data) {
+      $("#"+comment+".comment_karma").text(data+" points");
+      return false;
+    },
+    error:function(data) {
+      $("#"+comment+".comment_karma").text(data+" points");
+      return false;
+    }
+  });
+});
+
+
+$('.disabled_wrapper').click(function() {
+  sweetAlert("Opps!", "You Need To Sign In to Vote", "error");
+});
+
+</script>

@@ -383,4 +383,102 @@ body{
   display: none;
 }
 
-/***************************************USER PAGE************************************************* */
+/***************************************COMMENTS PAGE************************************************* */
+
+
+
+
+.comments-header {
+  border-bottom: 1px dotted gray;
+  margin-bottom: 10px;
+}
+
+.comments-container {
+  p {
+    margin-bottom: 0px;
+  }
+  .comment-nav {
+    margin-left: 5px;
+    margin-bottom: 20px;
+    border-bottom: .5px solid #ccc;
+    a {
+      font-size: 10px;
+      font-weight: bold;
+      color: #888;
+    }
+  }
+}
+.comment-nav {
+  margin-left: 5px;
+  margin-bottom: 20px;
+  border-bottom: .5px solid #ccc;
+  a {
+    font-size: 10px;
+    font-weight: bold;
+    color: #888;
+  }
+}
+.reply-form {
+  display: none;
+}
+
+.comments-show {
+  margin-left: 25px;
+}
+
+
+
+.comment a{
+  display: inline-block;
+  margin-right: 7px;
+  margin-bottom: 5px;
+}
+.comment_karma{
+  display: inline-block;
+}
+.comment_listing_counter{
+  display: inline-block;
+  font-size: 20px;
+  margin-right: 5px;
+  color: #999;
+  float: left;
+  width: 5%;
+  .btn{
+    float: right;
+  }
+}
+.voted{
+  background-color: #ff4f00 !important;
+}
+.btn-default.voted:hover{
+  background-color: #ff4f00;
+}
+.vote_btn{
+  display: inline-block;
+}
+
+.comment_upvote{
+  height: 20px;
+  width: 20px;
+    .glyphicon{
+      position: relative;
+      right: 5px;
+      top: -7px;
+      font-size: 10px;
+    }
+}
+.comment_downvote{
+  height: 20px;
+  width: 20px;
+  .glyphicon{
+    position: relative;
+    right: 5px;
+    top: -7px;
+    font-size: 10px;
+  }
+}
+
+#comment_time{
+  display: inline-block;
+  margin-left: 10px;
+}

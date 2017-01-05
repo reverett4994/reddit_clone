@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   resources :admins
   resources :posts
+  resources :comments
   get 'user/show'
 
   devise_for :users
@@ -24,6 +25,7 @@ Rails.application.routes.draw do
       get '/search' => 'subreddits#search'
 
       post 'post/vote' =>'posts#vote'
+      post 'comment/vote' =>'comments#vote'
 
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase

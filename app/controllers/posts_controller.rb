@@ -10,6 +10,10 @@ class PostsController < ApplicationController
   # GET /posts/1
   # GET /posts/1.json
   def show
+    @post= Post.find(params[:id])
+    if user_signed_in?
+      @new_comment = Comment.build_from(@post, current_user.id, "")
+    end
   end
 
   # GET /posts/new
@@ -76,7 +80,7 @@ class PostsController < ApplicationController
     respond_to do |format|
     format.xml  { render :xml => @post }
     format.json { render :json => (@post.get_upvotes.size)-(@post.get_downvotes.size) }
-  end
+    end
   end
 
   private
