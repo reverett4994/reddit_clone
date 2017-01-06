@@ -27,12 +27,14 @@
         <!-- Left-aligned media object -->
         <div class="media">
           <div class="media-left">
-            <%if post.image_link.present?%>
-              <div class="post_placeholder">
-                <%=link_to image_tag(post.image_link,alt:"",:id=>"listing_pic",:class=>"media-object"), post.image_link%>
-              </div>
-            <%else%>
-              <%=image_tag("logo.png",alt:"logo.png",:id=>"listing_pic",:class=>"media-object")%>
+            <%if post.class==Post%>
+              <%if post.image_link.present?%>
+                <div class="post_placeholder">
+                  <%=link_to image_tag(post.image_link,alt:"",:id=>"listing_pic",:class=>"media-object"), post.image_link%>
+                </div>
+              <%else%>
+                <%=image_tag("logo.png",alt:"logo.png",:id=>"listing_pic",:class=>"media-object")%>
+              <%end%>
             <%end%>
           </div>
           <div class="media-body">

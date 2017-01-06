@@ -384,9 +384,20 @@ body{
 }
 
 /***************************************COMMENTS PAGE************************************************* */
-
-
-
+#show_points{
+  font-size: 20px;
+  margin-bottom: 40px;
+  margin-top: -10px;
+  margin-left: 10px;
+}
+.comment_text_area{
+  background-image: url("textarea.png");
+  background-repeat: no-repeat;
+  min-height: 100px;
+  width: 55%;
+  max-width: 100%;
+  max-height: 250px;
+}
 
 .comments-header {
   border-bottom: 1px dotted gray;
@@ -435,6 +446,11 @@ body{
 }
 .comment_karma{
   display: inline-block;
+}
+.op{
+  display: inline-block;
+  background-color: #428BCA;
+  color: white;
 }
 .comment_listing_counter{
   display: inline-block;

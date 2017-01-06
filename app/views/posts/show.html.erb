@@ -1,4 +1,4 @@
-
+<div class="container-fluid">
   <div class="row">
     <div class="col-xs-12" id="header">
       <%= link_to (image_tag("logo.png",:id=>'logo')),root_path  %>
@@ -48,17 +48,38 @@
               <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         </div>
   <% end %>
-  <div class="container">
 
-  <%= render 'posts/showpost',post: @post,counter:"" %>
-  TOTAL VOTES ON: <%= @post.votes_for.size%>
-  UPVOTES: <%= @post.get_upvotes.size%>
-  DOWNVOTES: <%= @post.get_downvotes.size%>
-  <%if user_signed_in?%>
-    <%= render partial: "comments/template", locals: {commentable: @post, new_comment: @comment} %>
-  <%else%>
-      <%= render partial: "comments/reply", locals: {comments: @post.root_comments, new_comment: @comment} %>
-  <%end%>
+
+
+
+
+  <div class="row">
+    <div class="col-md-9 col-xs-12 ">
+      <%= render 'posts/showpost',post: @post,counter:"" %>
+    <p id="show_points">
+      Percentage That Like It: <%= (@post.get_upvotes.size/@post.votes_for.size)*100%>% |
+      total: <%= @post.votes_for.size%> votes |
+      upvotes: <%= @post.get_upvotes.size%> |
+      downvotes: <%= @post.get_downvotes.size%>
+    </p>
+      <%if user_signed_in?%>
+        <%= render partial: "comments/template", locals: {commentable: @post, new_comment: @comment} %>
+      <%else%>
+          <%= render partial: "comments/reply", locals: {comments: @post.root_comments, new_comment: @comment} %>
+      <%end%>
+    </div>
+  <%= render "subreddits/defaultsidebar" %>
+  </div>
+</div>
+
+
+<div id='slider'>
+  <%= render "subreddits/defaultsidebarmobile" %>
+</div>
+
+<button id='trigger'><span class="glyphicon glyphicon-th-list"></span></button>
+
+
 </div>
 <script>
 $(function() {
@@ -66,4 +87,22 @@ $(function() {
     $(this).closest('.comment').find('.reply-form').fadeToggle();
   });
 });
+
+$('#slider').slideReveal({
+  trigger: $("#trigger"),
+  position:"right",
+  width:"415px",
+  top:70,
+  push: false,
+  overlay: true
+});
+
+$('textarea').focus(function(){
+  $(this).css("background", "none");
+})
+$('textarea').blur(function(){
+  $('textarea').css("background-image","url(<%= asset_path('textarea.png') %>)");
+  $('textarea').css("background-repeat","no-repeat");
+  console.log("blur");
+})
 </script>

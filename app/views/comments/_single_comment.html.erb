@@ -1,6 +1,6 @@
-<% comments.each do |comment| %>
+
 <%karma=(comment.get_upvotes.size)-(comment.get_downvotes.size)%>
-  <div class="comments-show">
+
     <div class="comment_listing_counter  <%='disabled_wrapper' unless user_signed_in?%>">
       <p class="counter"></p>
       <% if user_signed_in?%>
@@ -22,7 +22,7 @@
       <%end%>
 
     </div>
-    <div class="comment">
+    <div class="comment single_comment">
       <a href="/user/<%=comment.user.username%>"><%=comment.user.username%></a>
       <% if comment.user==Post.find(comment.commentable_id).user%>
         <p class="op"> &nbsp;OP&nbsp; </p>
@@ -58,7 +58,7 @@
       <br>
       <p><%= comment.body %><br></p>
       <%if user_signed_in?%>
-        <div class="comment-nav"><a href="#" class="comment-reply">reply</a>
+        <div class="comment-nav">
           <%if current_user==comment.user%>
             <%= link_to 'delete', comment, method: :delete, data: { confirm: 'Are you sure?' } %>
           <%end%>
@@ -78,74 +78,5 @@
         </div>
       <%else%>
       <div class="comment-nav"></div>
-
       <%end%>
     </div>
-    <%= render partial: "comments/reply", locals: {comments: comment.children} %>
-  </div>
-<% end %>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<script>
-
-$('.upvote').click(function(e) {
-
-  var comment= $(this).attr("id")
-  console.log(comment);
-  $(this ).addClass( "voted" );
-  $("#"+comment+".downvote").removeClass("voted");
-  $.ajax({
-    type: "POST",
-    url: "/comment/vote",
-    dataType:"json",
-    data: {vote:"up",id:comment },
-    success:function(data) {
-      $("#"+comment+".comment_karma").text(data+" points");
-      return false;
-    },
-    error:function(data) {
-      $("#"+comment+".comment_karma").text(data+" points");
-      return false;
-    }
-  });
-});
-
-
-$('.downvote').click(function(e) {
-  console.log("CLICKED");
-  var comment= $(this).attr("id")
-  $(this ).addClass( "voted" );
-  $("#"+comment+".upvote").removeClass("voted");
-  $.ajax({
-    type: "POST",
-    url: "/comment/vote",
-    dataType:"json",
-    data: {vote:"down",id:comment },
-    success:function(data) {
-      $("#"+comment+".comment_karma").text(data+" points");
-      return false;
-    },
-    error:function(data) {
-      $("#"+comment+".comment_karma").text(data+" points");
-      return false;
-    }
-  });
-});
-
-
-$('.disabled_wrapper').click(function() {
-  sweetAlert("Opps!", "You Need To Sign In to Vote", "error");
-});
-
-</script>
