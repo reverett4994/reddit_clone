@@ -62,6 +62,7 @@
           <%if current_user==comment.user%>
             <%= link_to 'delete', comment, method: :delete, data: { confirm: 'Are you sure?' } %>
           <%end%>
+            <%=link_to "context",Post.find(comment.commentable_id)%>
         </div>
         <div class="reply-form">
             <%= form_for @new_comment do |f| %>
@@ -77,6 +78,6 @@
             <% end %>
         </div>
       <%else%>
-      <div class="comment-nav"></div>
+      <div class="comment-nav"><%=link_to "context",Post.find(comment.commentable_id)%></div>
       <%end%>
     </div>

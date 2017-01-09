@@ -62,14 +62,39 @@
       upvotes: <%= @post.get_upvotes.size%> |
       downvotes: <%= @post.get_downvotes.size%>
     </p>
+
       <%if user_signed_in?%>
-        <%= render partial: "comments/template", locals: {commentable: @post, new_comment: @comment} %>
+        <% if @post.root_comments.size != 0%>
+          <%= render partial: "comments/template", locals: {post:@post, commentable: @best_comments, new_comment: @comment} %>
+        <%else%>
+        <%= render partial: "comments/template", locals: {commentable: @post.root_comments, new_comment: @comment} %>
+        <%end%>
       <%else%>
+          <div class="comments-header">
+            <h4>
+              <%= @post.comment_threads.count == 0 ? "no" : @post.comment_threads.count %> comments
+            </h4>
+
+          </div>
+          <% if @post.root_comments.size != 0%>
+            <%= render partial: "comments/reply", locals: {comments: @best_comments, new_comment: @comment} %>
+          <%else%>
           <%= render partial: "comments/reply", locals: {comments: @post.root_comments, new_comment: @comment} %>
+          <%end%>
       <%end%>
     </div>
   <%= render "subreddits/defaultsidebar" %>
   </div>
+
+  <div class="dropdown">
+   <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown">sort by
+   <span class="caret"></span></button>
+   <ul class="dropdown-menu">
+     <li><a href="#">Best</a></li>
+     <li><a href="#">Newest</a></li>
+     <li><a href="#">Controversial</a></li>
+   </ul>
+ </div>
 </div>
 
 
@@ -78,6 +103,7 @@
 </div>
 
 <button id='trigger'><span class="glyphicon glyphicon-th-list"></span></button>
+
 
 
 </div>

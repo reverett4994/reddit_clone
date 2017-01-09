@@ -1,7 +1,9 @@
 class UserController < ApplicationController
   WillPaginate.per_page = 90
   def show
-      @new_comment = Comment.build_from(@post, current_user.id, "")
+      if user_signed_in?
+        @new_comment = Comment.build_from(@post, current_user.id, "")
+      end
       @username=params[:username]
       @user = User.where("username LIKE ?",@username)
       @user=@user[0]

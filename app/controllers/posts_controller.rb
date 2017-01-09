@@ -11,6 +11,24 @@ class PostsController < ApplicationController
   # GET /posts/1.json
   def show
     @post= Post.find(params[:id])
+    @post_comments=@post.root_comments
+
+    @comments_sorted={}
+    @post.root_comments.each do |post|
+      @comments_sorted[post]=(post.get_upvotes.size)-(post.get_dislikes.size)
+    end
+
+    @best_commentss = ActiveSupport::OrderedHash[*@comments_sorted.sort_by{|k,v| v}.reverse.flatten]
+    @best_comments_ids=[]
+    @best_commentss.keys.each do |comment|
+      @best_comments_ids<<comment.id
+    end
+
+    @best_comments=Comment.where(id: @best_comments_ids).order("FIELD(id, #{@best_comments_ids.join(', ')})")
+
+    @ordered_comments = @post_comments.sort_by &:created_at
+    @new_comments =@ordered_comments.reverse
+    
     if user_signed_in?
       @new_comment = Comment.build_from(@post, current_user.id, "")
     end
