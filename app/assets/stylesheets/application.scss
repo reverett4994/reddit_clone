@@ -331,7 +331,17 @@ body{
 #slider{
   overflow: scroll;
 }
+
+.mobile {
+  box-sizing: content-box;
+  padding: 20px;
+
+  box-shadow: 2px 12px 20px 0px rgba(0,0,0,.5);
+}
+
 /*************************************** MOBILE SIDEBAR ************************************************* */
+
+
 
 /***************************************SEARCH PAGE************************************************* */
 
@@ -497,4 +507,14 @@ body{
 #comment_time{
   display: inline-block;
   margin-left: 10px;
+}
+.comments-header h4{
+  display: inline-block;
+}
+.comment_sort{
+  display: inline-block;
+  margin-left: 25px;
+  .btn{
+    padding: 5px 5px;
+  }
 }

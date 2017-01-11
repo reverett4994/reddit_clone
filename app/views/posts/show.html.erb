@@ -57,6 +57,7 @@
     <div class="col-md-9 col-xs-12 ">
       <%= render 'posts/showpost',post: @post,counter:"" %>
     <p id="show_points">
+
       Percentage That Like It: <%= (@post.get_upvotes.size/@post.votes_for.size)*100%>% |
       total: <%= @post.votes_for.size%> votes |
       upvotes: <%= @post.get_upvotes.size%> |
@@ -65,16 +66,23 @@
 
       <%if user_signed_in?%>
         <% if @post.root_comments.size != 0%>
-          <%= render partial: "comments/template", locals: {post:@post, commentable: @best_comments, new_comment: @comment} %>
+          <%= render partial: "comments/template", locals: {post:@post, commentable: @best_comments, new_comment: @comment,sort:params[:order]} %>
         <%else%>
-        <%= render partial: "comments/template", locals: {commentable: @post.root_comments, new_comment: @comment} %>
+        <%= render partial: "comments/template", locals: {post:@post,commentable: @post.root_comments, new_comment: @comment,sort:params[:order]} %>
         <%end%>
       <%else%>
           <div class="comments-header">
             <h4>
               <%= @post.comment_threads.count == 0 ? "no" : @post.comment_threads.count %> comments
             </h4>
-
+            <div class="dropdown comment_sort">
+             <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown">sort by <%= params[:order]=="new" ? "new": "best" %>
+             <span class="caret"></span></button>
+             <ul class="dropdown-menu">
+               <li><%= link_to "Best",post_path(@post.id)%></li>
+               <li><%= link_to "New",post_path(@post.id, order:"new") %></li>
+             </ul>
+           </div>
           </div>
           <% if @post.root_comments.size != 0%>
             <%= render partial: "comments/reply", locals: {comments: @best_comments, new_comment: @comment} %>
@@ -82,19 +90,13 @@
           <%= render partial: "comments/reply", locals: {comments: @post.root_comments, new_comment: @comment} %>
           <%end%>
       <%end%>
+
+
     </div>
   <%= render "subreddits/defaultsidebar" %>
   </div>
 
-  <div class="dropdown">
-   <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown">sort by
-   <span class="caret"></span></button>
-   <ul class="dropdown-menu">
-     <li><a href="#">Best</a></li>
-     <li><a href="#">Newest</a></li>
-     <li><a href="#">Controversial</a></li>
-   </ul>
- </div>
+
 </div>
 
 

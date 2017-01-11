@@ -1,4 +1,5 @@
 class Post < ActiveRecord::Base
+  self.per_page = 10
   acts_as_votable
   acts_as_commentable
   belongs_to :user

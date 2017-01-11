@@ -9,8 +9,10 @@
     <%= f.text_field :username, autofocus: true, icon: "user" %>
   </div>
   <div class="field">
-
     <%= f.email_field :email %>
+  </div>
+  <div class="field">
+    <%= f.check_box :comment_emails,label:"Send me a new email whenever a new comment is created on my posts" %>
   </div>
 
   <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
@@ -19,7 +21,6 @@
 
   <div class="field">
     <%= f.password_field :password, autocomplete: "off", help: "Leave Blank If You Don't Want to Change It" %>
-
   </div>
 
   <div class="field">

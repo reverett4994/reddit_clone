@@ -28,10 +28,15 @@ class PostsController < ApplicationController
 
     @ordered_comments = @post_comments.sort_by &:created_at
     @new_comments =@ordered_comments.reverse
-    
+
     if user_signed_in?
       @new_comment = Comment.build_from(@post, current_user.id, "")
     end
+
+    if params[:order]=="new"
+      @best_comments=@new_comments
+    end
+
   end
 
   # GET /posts/new

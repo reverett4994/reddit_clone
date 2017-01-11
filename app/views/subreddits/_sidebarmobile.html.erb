@@ -1,4 +1,4 @@
-<div class="sidebar">
+<div class="sidebar mobile">
   <div class="sidebar_search inner-addon left-addon">
     <%= bootstrap_form_tag(url:"/search", :method => :get) do |f| %>
       <%= f.text_field :search,placeholder:"Search Subreddit",hide_label: true, icon: "search",class:"search" %>
@@ -91,4 +91,8 @@ $('.sidebar_login input').focus(function() {
 $('.sidebar_login input').focusout(function() {
   $(".sidebar_login").css({"border-color":"#5bc0de"});
 });
+
+$(".show_form").click(function(e){
+  $(".hidden_form").fadeToggle();
+})
 </script>

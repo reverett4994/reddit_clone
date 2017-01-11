@@ -40,4 +40,15 @@ Rails.application.configure do
   # config.action_view.raise_on_missing_translations = true
 
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+  config.action_mailer.raise_delivery_errors = true
+  #NEDED TO SEND EMAIL THOUGH DEVOLPMENT
+  config.action_mailer.smtp_settings = {
+    :enable_starttls_auto => true,
+    :address => "smtp.gmail.com",
+    :port => 587,
+    :domain => "gmail.com",
+    :authentication => :login,
+    :user_name => ENV.fetch('GMAIL_USERNAME'),
+    :password => ENV.fetch('GMAIL_PASSWORD'),
+  }
 end

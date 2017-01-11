@@ -1,5 +1,6 @@
 require 'bcrypt'
 class Subreddit < ActiveRecord::Base
+  self.per_page = 10
   extend FriendlyId
   friendly_id :name, use: :slugged
   include BCrypt

@@ -2,6 +2,14 @@
   <h4>
     <%= post.comment_threads.count == 0 ? "no" : post.comment_threads.count %> comments
   </h4>
+  <div class="dropdown comment_sort">
+   <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown">sort by <%= sort =="new" ? "new": "best" %>
+   <span class="caret"></span></button>
+   <ul class="dropdown-menu">
+     <li><%= link_to "Best",post_path(@post.id)%></li>
+     <li><%= link_to "New",post_path(@post.id, order:"new") %></li>
+   </ul>
+ </div>
 </div>
 
 <%= render partial: "comments/form", locals: {new_comment: new_comment} %>
