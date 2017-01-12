@@ -77,7 +77,10 @@
                                     to /r/<%= link_to post.subreddit.name, post.subreddit %></p>
             <%end%>
             <% if post.user != nil && post.user==current_user%>
-              <%= link_to 'Delete', post, method: :delete, data: { confirm: 'Are you sure?' } %>
+            <%= link_to 'Delete', post, method: :delete, data: { behavior: 'delete' } %>
+            <%end%>
+            <% if current_user.admin.subreddits.include? (post.subreddit)%>
+              <%= link_to 'Mod Delete', post, method: :delete, data: { behavior: 'mod_delete',title:post.title,subreddit:post.subreddit.name,user: (post.user.email unless post.user==nil) } %>
             <%end%>
           </div>
         </div>
@@ -135,9 +138,112 @@
     });
   });
 
-
   $('.disabled_wrapper').click(function() {
     sweetAlert("Opps!", "You Need To Sign In to Vote", "error");
   });
+
+  $("[data-behavior='delete']").on("click", function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    console.log(this);
+    var link=this;
+    return swal({
+      title: 'Are you sure?',
+      text: 'You will not be able to recover this post!',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#DD6B55',
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, cancel!',
+      closeOnConfirm: false,
+      closeOnCancel: false
+    }, (function(_this) {
+      return function(confirmed) {
+        if (confirmed) {
+          $.ajax({
+            url: $(_this).attr("href"),
+            dataType: "JSON",
+            method: "DELETE",
+            success: function() {
+              console.log(link);
+              $(link).parents(".post_container").fadeOut();
+              return swal('Deleted!', 'Your post has been deleted.', 'success');
+            }
+          });
+        } else {
+          swal('Cancelled', 'Your post was unharmed', 'error');
+        }
+      };
+    })(this));
+  });
+
+  $("[data-behavior='mod_delete']").on("click", function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    var link=this;
+    var email=$(this).data("user");
+    var title=$(this).data("title");
+    var subreddit=$(this).data("subreddit");
+    return swal({
+      title: 'Delete post using mod privileges?',
+      text: 'You will not be able to recover this post!',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#DD6B55',
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, cancel!',
+      closeOnConfirm: false,
+      closeOnCancel: false
+    }, (function(_this) {
+      return function(confirmed) {
+        if (confirmed) {
+
+          swal({
+            title: "Reason for deletion!",
+            text: "What did it do wrong?:",
+            type: "input",
+            showCancelButton: true,
+            closeOnConfirm: false,
+            animation: "slide-from-top",
+            inputPlaceholder: "Need Something"
+          },
+          function(inputValue){
+            if (inputValue === false) return false;
+
+            if (inputValue === "") {
+              swal.showInputError("You need to write something!");
+              return false
+            }
+
+            $.ajax({
+              url: $(_this).attr("href"),
+              dataType: "JSON",
+              method: "DELETE",
+              success: function() {
+                $(link).parents(".post_container").fadeOut();
+                $.ajax({
+                  url:"/moddestroy",
+                  dataType: "JSON",
+                  method: "GET",
+                  data: { reason: inputValue,user:email,post:title,sub:subreddit },
+                  success: function() {
+
+                  }
+                });
+                return swal('Deleted!', 'post has been deleted.', 'success');
+              }
+            });
+          });
+
+
+
+        } else {
+          swal('Cancelled', 'Post was unharmed', 'error');
+        }
+      };
+    })(this));
+
+  });
+
 
   </script>

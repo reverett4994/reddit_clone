@@ -89,6 +89,14 @@ class PostsController < ApplicationController
     end
   end
 
+  def moddestroy
+    respond_to do |format|
+      format.html # index.html.erb
+      format.xml  { render :xml =>  UserMailer.mod_delete(params[:reason],params[:user],params[:post],params[:sub]).deliver }
+      format.json { render :json =>  UserMailer.mod_delete(params[:reason],params[:user],params[:post],params[:sub]).deliver }
+    end
+  end
+
   def vote
     @post=Post.where("ID LIKE ?",params[:id])
     @post=@post.last
