@@ -55,7 +55,8 @@
 
   <div class="row">
     <div class="col-md-9 col-xs-12 ">
-      <%= render 'posts/showpost',post: @post,counter:"" %>
+      <%= render 'posts/showpagepost',post: @post,counter:"" %>
+
     <p id="show_points">
 
       Percentage That Like It: <%= (@post.get_upvotes.size/@post.votes_for.size)*100%>% |

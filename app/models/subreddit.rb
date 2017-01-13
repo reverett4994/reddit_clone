@@ -1,24 +1,18 @@
-require 'bcrypt'
 class Subreddit < ActiveRecord::Base
+  has_secure_password
+
   self.per_page = 10
   extend FriendlyId
   friendly_id :name, use: :slugged
-  include BCrypt
+
   has_many :posts
   has_and_belongs_to_many :users, :uniq => true
   has_and_belongs_to_many :admins, :uniq => true
   scope :default, -> { where(frontpage: true) }
-
+  validates :name, :slug, presence: true
   before_save :set_rules
   before_save :set_message
-  def password
-    @password ||= Password.new(password_hash)
-  end
 
-  def password=(new_password)
-    @password = Password.create(new_password)
-    self.password_hash = @password
-  end
 
   def set_rules
     if self.rules==""

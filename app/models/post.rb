@@ -5,4 +5,5 @@ class Post < ActiveRecord::Base
   belongs_to :user
   belongs_to :subreddit
   validates :title, length: { in: 2..250 }
+  validates :user_id, :subreddit_id, presence: true
 end

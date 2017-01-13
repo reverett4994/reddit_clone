@@ -25,4 +25,11 @@ class UserMailer < ApplicationMailer
       mail(to:@email,subject:'Mod Deleted your post')
     end
 
+    def comment_mod_delete(reason,email,title)
+      @reason=reason
+      @email=email
+      @title=title
+      mail(to:@email,subject:'Mod Deleted your post')
+    end
+
 end

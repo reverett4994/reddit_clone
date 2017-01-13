@@ -58,7 +58,8 @@ class PostsController < ApplicationController
         format.html { redirect_to @post.subreddit }
         format.json { render :show, status: :created, location: @post }
       else
-        format.html { render :new }
+        flash[:error]= "Error When Creating Post! Try Again."
+        format.html { redirect_to :back }
         format.json { render json: @post.errors, status: :unprocessable_entity }
       end
     end

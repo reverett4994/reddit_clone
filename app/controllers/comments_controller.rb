@@ -11,7 +11,8 @@ class CommentsController < ApplicationController
         make_child_comment
         format.html  { redirect_to(:back) }
       else
-        format.html  { render :action => "new" }
+        flash[:error]= "Error When Creating Comment, It Needs to Have SOME Content! Try Again."
+        format.html { redirect_to :back }
       end
     end
   end
@@ -39,6 +40,14 @@ class CommentsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to :back, success: 'Comment was successfully destroyed.' }
       format.json { head :no_content }
+    end
+  end
+
+  def moddestroy
+    respond_to do |format|
+      format.html # index.html.erb
+      format.xml  { render :xml =>  UserMailer.comment_mod_delete(params[:reason],params[:user],params[:post]).deliver }
+      format.json { render :json =>  UserMailer.comment_mod_delete(params[:reason],params[:user],params[:post]).deliver }
     end
   end
 

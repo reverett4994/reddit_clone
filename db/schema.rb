@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170111093020) do
+ActiveRecord::Schema.define(version: 20170113084426) do
 
   create_table "admins", force: :cascade do |t|
     t.string   "user_id",    limit: 255
@@ -68,16 +68,16 @@ ActiveRecord::Schema.define(version: 20170111093020) do
   end
 
   create_table "subreddits", force: :cascade do |t|
-    t.string   "name",          limit: 255
-    t.text     "description",   limit: 65535
-    t.string   "slug",          limit: 255
-    t.datetime "created_at",                                  null: false
-    t.datetime "updated_at",                                  null: false
-    t.boolean  "frontpage",                   default: false
-    t.string   "image_url",     limit: 255
-    t.text     "rules",         limit: 65535
-    t.text     "message",       limit: 65535
-    t.string   "password_hash", limit: 255
+    t.string   "name",            limit: 255
+    t.text     "description",     limit: 65535
+    t.string   "slug",            limit: 255
+    t.datetime "created_at",                                    null: false
+    t.datetime "updated_at",                                    null: false
+    t.boolean  "frontpage",                     default: false
+    t.string   "image_url",       limit: 255
+    t.text     "rules",           limit: 65535
+    t.text     "message",         limit: 65535
+    t.string   "password_digest", limit: 255
   end
 
   add_index "subreddits", ["slug"], name: "index_subreddits_on_slug", unique: true, using: :btree

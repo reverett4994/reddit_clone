@@ -185,7 +185,7 @@ class SubredditsController < ApplicationController
   def admin
     @subreddit=Subreddit.friendly.find(params[:id])
     @password_attempt=params[:password]
-    if @subreddit.password==@password_attempt
+    if @subreddit.authenticate(@password_attempt)
       @password_attempt='worked!'
       @subreddit.admins<<current_user.admin unless @subreddit.admins.include?(current_user.admin)
       current_user.admin.subreddits<<@subreddit unless current_user.admin.subreddits.include?(@subreddit)
@@ -193,7 +193,7 @@ class SubredditsController < ApplicationController
       flash[:success] ="Password was Correct! Your Now a Mod of #{@subreddit.name}!"
     else
       redirect_to(:back)
-      flash[:danger] ="Password was Incorrect!"
+      flash[:error] ="Password was Incorrect!"
     end
   end
   def removeadmin
@@ -213,6 +213,6 @@ class SubredditsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def subreddit_params
-      params.require(:subreddit).permit(:name, :description, :slug,:image_url,:rules,:message,:password)
+      params.require(:subreddit).permit(:name, :description, :slug,:image_url,:rules,:message,:password,:password_confirmation)
     end
 end

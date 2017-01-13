@@ -27,6 +27,9 @@
       <% if comment.user==Post.find(comment.commentable_id).user%>
         <p class="op"> &nbsp;OP&nbsp; </p>
       <%end%>
+      <% if comment.user.admin.subreddits.include? (Post.find(comment.commentable_id).subreddit)%>
+        <p class="mod"> &nbsp;M&nbsp; </p>
+      <%end%>
       <p class="comment_karma" id=<%=comment.id%>><%=karma%> points</p>
 
       <% time_diffrence=TimeDifference.between(comment.created_at, Time.current).in_general %>
@@ -60,7 +63,10 @@
       <%if user_signed_in?%>
         <div class="comment-nav"><a href="#" class="comment-reply">reply</a>
           <%if current_user==comment.user%>
-            <%= link_to 'delete', comment, method: :delete, data: { confirm: 'Are you sure?' } %>
+            <%= link_to 'delete', comment, method: :delete, data: { behavior: 'delete' } %>
+          <%end%>
+          <% if current_user.admin.subreddits.include? (Post.find(comment.commentable_id).subreddit)%>
+            <%= link_to 'Mod Delete', comment, method: :delete, data: { behavior: 'mod_delete',comment:comment.body,user: (comment.user.email unless comment.user==nil) } %>
           <%end%>
         </div>
         <div class="reply-form">
@@ -146,6 +152,112 @@ $('.downvote').click(function(e) {
 
 $('.disabled_wrapper').click(function() {
   sweetAlert("Opps!", "You Need To Sign In to Vote", "error");
+});
+
+$("[data-behavior='delete']").on("click", function(e) {
+  e.preventDefault();
+  e.stopPropagation();
+  console.log(this);
+  var link=this;
+  return swal({
+    title: 'Are you sure?',
+    text: 'You will not be able to recover this comment!',
+    type: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#DD6B55',
+    confirmButtonText: 'Yes, delete it!',
+    cancelButtonText: 'No, cancel!',
+    closeOnConfirm: false,
+    closeOnCancel: false
+  }, (function(_this) {
+    return function(confirmed) {
+      if (confirmed) {
+        $.ajax({
+          url: $(_this).attr("href"),
+          dataType: "JSON",
+          method: "DELETE",
+          success: function() {
+            console.log(link);
+            $(link).parents(".comment").siblings(".comment_listing_counter").fadeOut();
+            $(link).parents(".comment").fadeOut();
+            return swal('Deleted!', 'Your comment has been deleted.', 'success');
+          }
+        });
+      } else {
+        swal('Cancelled', 'Your comment was unharmed', 'error');
+      }
+    };
+  })(this));
+});
+
+
+$("[data-behavior='mod_delete']").on("click", function(e) {
+  e.preventDefault();
+  e.stopPropagation();
+  var link=this;
+  var email=$(this).data("user");
+  var title=$(this).data("comment");
+  var subreddit=$(this).data("subreddit");
+  return swal({
+    title: 'Delete post using mod privileges?',
+    text: 'You will not be able to recover this post!',
+    type: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#DD6B55',
+    confirmButtonText: 'Yes, delete it!',
+    cancelButtonText: 'No, cancel!',
+    closeOnConfirm: false,
+    closeOnCancel: false
+  }, (function(_this) {
+    return function(confirmed) {
+      if (confirmed) {
+
+        swal({
+          title: "Reason for deletion!",
+          text: "What did it do wrong?:",
+          type: "input",
+          showCancelButton: true,
+          closeOnConfirm: false,
+          animation: "slide-from-top",
+          inputPlaceholder: "Need Something"
+        },
+        function(inputValue){
+          if (inputValue === false) return false;
+
+          if (inputValue === "") {
+            swal.showInputError("You need to write something!");
+            return false
+          }
+
+          $.ajax({
+            url: $(_this).attr("href"),
+            dataType: "JSON",
+            method: "DELETE",
+            success: function() {
+              $(link).parents(".comment").siblings(".comment_listing_counter").fadeOut();
+              $(link).parents(".comment").fadeOut();
+              $.ajax({
+                url:"/commentmoddestroy",
+                dataType: "JSON",
+                method: "GET",
+                data: { reason: inputValue,user:email,post:title},
+                success: function() {
+
+                }
+              });
+              return swal('Deleted!', 'post has been deleted.', 'success');
+            }
+          });
+        });
+
+
+
+      } else {
+        swal('Cancelled', 'Post was unharmed', 'error');
+      }
+    };
+  })(this));
+
 });
 
 </script>

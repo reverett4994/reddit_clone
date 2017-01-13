@@ -76,13 +76,17 @@
                                     <%= link_to post.user.username,user_show_path(username: post.user.username) unless post.user==nil%><%= if post.user==nil then "DELETED" end%>
                                     to /r/<%= link_to post.subreddit.name, post.subreddit %></p>
             <%end%>
+            <% if @post.description != ""%>
+              <div class="panel panel-default">
+                <div class="panel-body"><p><%=@post.description%></p></div>
+              </div>
+            <%end%>
+
             <% if post.user != nil && post.user==current_user%>
             <%= link_to 'Delete', post, method: :delete, data: { behavior: 'delete' } %>
             <%end%>
-            <% if user_signed_in?%>
-              <% if current_user.admin.subreddits.include? (post.subreddit)%>
-                <%= link_to 'Mod Delete', post, method: :delete, data: { behavior: 'mod_delete',title:post.title,subreddit:post.subreddit.name,user: (post.user.email unless post.user==nil) } %>
-              <%end%>
+            <% if current_user.admin.subreddits.include? (post.subreddit)%>
+              <%= link_to 'Mod Delete', post, method: :delete, data: { behavior: 'mod_delete',title:post.title,subreddit:post.subreddit.name,user: (post.user.email unless post.user==nil) } %>
             <%end%>
           </div>
         </div>
