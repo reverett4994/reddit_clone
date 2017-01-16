@@ -12,13 +12,13 @@
     <% end %>
 
     <div class="field">
-      <%= f.text_field :title %>
+      <%= f.text_field :title, data: { validation: 'length',validation_length:"min2",validation_help:"post's text show on frontpage" }  %>
     </div>
     <div class="field">
-      <%= f.text_area :description %>
+      <%= f.text_area :description, data: { validation_help:"optional additional text or place for a link" } %>
     </div>
     <div class="field">
-      <%= f.text_field :image_link %>
+      <%= f.text_field :image_link, data: { validation_help:"optional image to go with post" } %>
     </div>
     <div class="field">
       <%= f.hidden_field :subreddit_id,value: params[:subreddit] %>
@@ -27,3 +27,16 @@
       <%= f.submit %>
     </div>
   <% end %>
+  <script>
+  $.validate({
+    lang: 'en',
+    modules : 'security',
+    onSuccess : function($form) {
+
+    },
+    onError : function($form) {
+      sweetAlert("Opps!", "Something Was Wrong", "warning");
+      return false; // IF FALSE Will stop the submission of the form
+    }
+  });
+  </script>

@@ -36,8 +36,10 @@
   <%end%>
   <% if user_signed_in?%>
     <%= link_to 'New Post', new_post_path(subreddit: @subreddit.id),class:"btn btn-info new_post_btn btn-lg" %>
+    <%= link_to 'New Subreddit', new_subreddit_path,class:"btn btn-info new_post_btn btn-lg new_sub" %>
   <%else%>
     <%= link_to 'New Post', "#",class:"btn btn-info new_post_btn btn-lg dummy" %>
+    <%= link_to 'New Subreddit', "#",class:"btn btn-info new_post_btn btn-lg dummy new_sub" %>
   <%end%>
   <h3>Number of Subscribers</h3>
   <p><%=@subreddit.users.count%></p>

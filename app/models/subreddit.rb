@@ -9,7 +9,7 @@ class Subreddit < ActiveRecord::Base
   has_and_belongs_to_many :users, :uniq => true
   has_and_belongs_to_many :admins, :uniq => true
   scope :default, -> { where(frontpage: true) }
-  validates :name, :slug, presence: true
+  validates :name, :slug,:description, presence: true
   before_save :set_rules
   before_save :set_message
 

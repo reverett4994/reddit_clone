@@ -14,28 +14,41 @@
   <% end %>
 
   <div class="form-group">
-    <%= f.text_field :name %>
+    <%= f.text_field :name, help: "something like books or bookclub", data: { validation: 'length',validation_length:"min1" } %>
   </div>
   <div class="form-group">
-    <%= f.text_area :description %>
+    <%= f.text_area :description, help: "shows when searched for; something new users see first", data: { validation: 'length',validation_length:"min1" } %>
   </div>
   <div class="form-group">
-    <%= f.text_area :rules %>
+    <%= f.text_area :rules, help: "displayed on subreddit sidebar (optional)" %>
   </div>
   <div class="form-group">
-    <%= f.text_area :message %>
+    <%= f.text_area :message, help: "displayed on subreddit sidebar (optional)" %>
   </div>
   <div class="form-group">
-    <%= f.password_field :password %>
+    <%= f.password_field :password, data: { validation: 'length',validation_length:"min6",validation_help:"must be atleast 6 characters long"} %>
   </div>
   <div class="form-group">
-    <%= f.password_field :password_confirmation %>
+    <%= f.password_field :password_confirmation, data: { validation: 'confirmation',validation_confirm:"subreddit[password]",validation_help:"must match password entered previously"} %>
   </div>
   <div class="form-group">
-    <%= f.text_field :image_url %>
+    <%= f.text_field :image_url, help: "optional image to display on subreddit sidebar"%>
   </div>
   <div class="actions">
     <%= f.submit %>
   </div>
 <% end %>
 </div>
+<script>
+$.validate({
+  lang: 'en',
+  modules : 'security',
+  onSuccess : function($form) {
+
+  },
+  onError : function($form) {
+    sweetAlert("Opps!", "Something Was Wrong", "warning");
+    return false; // IF FALSE Will stop the submission of the form
+  }
+});
+</script>

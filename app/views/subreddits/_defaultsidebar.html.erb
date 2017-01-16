@@ -26,6 +26,11 @@
   <div id="subreddit_image_div">
     <%=image_tag("photo.jpg",id:"subreddit_image")%>
   </div>
+  <%if user_signed_in?%>
+    <%= link_to 'New Subreddit', new_subreddit_path,class:"btn btn-info new_post_btn btn-lg new_sub" %>
+  <%else%>
+    <%= link_to 'New Subreddit', "#",class:"btn btn-info new_post_btn btn-lg dummy new_sub" %>
+  <%end%>
   <div class="adone"></div>
   <h2 id="default_sidebar_header">Reddit: The Front Page of The Internet!</h2>
   <div class="ad"></div>
@@ -48,5 +53,9 @@ $('.sidebar_login input').focus(function() {
 
 $('.sidebar_login input').focusout(function() {
   $(".sidebar_login").css({"border-color":"#5bc0de"});
+});
+
+$('.dummy').click(function() {
+  sweetAlert("Opps!", "You Need To Sign In to Post", "error");
 });
 </script>

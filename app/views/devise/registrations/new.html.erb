@@ -5,19 +5,18 @@
   <%= bootstrap_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
     <%= devise_error_messages! %>
     <div class="field">
-      <%= f.text_field :username, autofocus: true %>
+      <%= f.text_field :username, autofocus: true,help:"your sitewide username e.g 'reddit_clone_user'", data: { validation: 'length',validation_length:"2-25" }  %>
     </div>
     <div class="field">
-      <%= f.email_field :email %>
-    </div>
-
-    <div class="field">
-
-      <%= f.password_field :password, autocomplete: "off" %>
+      <%= f.email_field :email,help:"your current email, notifications will be sent here", data: { validation: 'email'} %>
     </div>
 
     <div class="field">
-      <%= f.password_field :password_confirmation, autocomplete: "off" %>
+      <%= f.password_field :password, autocomplete: "off", data: { validation: 'length',validation_length:"min6",validation_help:"must be atleast 6 characters long"} %>
+    </div>
+
+    <div class="field">
+      <%= f.password_field :password_confirmation, autocomplete: "off", data: { validation: 'confirmation',validation_confirm:"user[password]",validation_help:"must match password entered previously"} %>
     </div>
 
     <div class="actions">
@@ -27,3 +26,19 @@
 
   <%= render "devise/shared/links" %>
 </div>
+
+
+<script>
+$.validate({
+  lang: 'en',
+  modules : 'security',
+  onSuccess : function($form) {
+
+  },
+  onError : function($form) {
+    sweetAlert("Opps!", "Something Was Wrong", "warning");
+    return false; // IF FALSE Will stop the submission of the form
+  }
+
+});
+</script>
