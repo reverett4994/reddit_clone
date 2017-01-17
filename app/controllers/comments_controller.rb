@@ -78,6 +78,7 @@ class CommentsController < ApplicationController
 
     parent_comment = Comment.find comment_id
     @comment.move_to_child_of(parent_comment)
+    UserMailer.new_reply(@comment).deliver
   end
 
 end

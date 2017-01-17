@@ -25,7 +25,7 @@ Rails.application.routes.draw do
       get '/search' => 'subreddits#search'
       get '/moddestroy' => 'posts#moddestroy'
       get '/commentmoddestroy' => 'comments#moddestroy'
-
+      get '/direct-message' => 'user#direct_message'
       post 'post/vote' =>'posts#vote'
       post 'comment/vote' =>'comments#vote'
 

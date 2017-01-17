@@ -1,7 +1,11 @@
+<%@all_subreddits=[]%>
+<%Subreddit.all.each do |sub|%>
+  <%@all_subreddits<<sub.name%>
+<%end%>
 <div class="hidden-xs hidden-sm col-md-3 sidebar">
   <div class="sidebar_search inner-addon left-addon">
     <%= bootstrap_form_tag(url:"/search", :method => :get) do |f| %>
-      <%= f.text_field :search,placeholder:"Search Subreddit",hide_label: true, icon: "search",class:"search" %>
+      <%= f.text_field :search,placeholder:"Search Subreddit",hide_label: true, icon: "search",class:"search", data: { suggestions:@all_subreddits.join(',')} %>
     <% end %>
     <h3 id="search_header" class="search_header">Search</h3>
   </div>
@@ -95,6 +99,6 @@ $('.sidebar_login input').focusout(function() {
 });
 
 $(".show_form").click(function(e){
-  
+
 })
 </script>

@@ -35,4 +35,8 @@ class UserController < ApplicationController
 
       @disliked= @disliked.paginate(:page => params[:page], :per_page => 300)
   end
+
+  def direct_message
+    @user=User.find(params[:user])
+  end
 end

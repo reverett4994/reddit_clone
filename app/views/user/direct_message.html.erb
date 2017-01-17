@@ -1,0 +1,80 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-12" id="header">
+      <%= link_to (image_tag("logo.png",:id=>'logo')),root_path  %>
+      <ul class="nav nav-pills">
+       <li><a href="/top">Top</a></li>
+       <li><a href="/new">New</a></li>
+       <li><a href="/all">All</a></li>
+       <li id="optional"><a href="#">Controversial</a></li>
+       <% if user_signed_in?%>
+       <li class="dropdown">
+         <a class="dropdown-toggle" data-toggle="dropdown" href="#">Your Subreddits
+         <span class="caret"></span></a>
+         <ul class="dropdown-menu">
+           <%current_user.subreddits.each do |subreddit| %>
+              <li><%= link_to subreddit.name, subreddit %></li>
+           <%end%>
+         </ul>
+       </li>
+       <%else%>
+       <li class="dropdown">
+         <a class="dropdown-toggle" data-toggle="dropdown" href="#">Default Subreddits
+         <span class="caret"></span></a>
+         <ul class="dropdown-menu">
+           <%Subreddit.default.default.each do |subreddit| %>
+              <li><%= link_to subreddit.name, subreddit %></li>
+           <%end%>
+         </ul>
+       </li>
+       <%end%>
+       <% if user_signed_in?%>
+         <ul class="list-inline right">
+          <li><a href="/user/<%=current_user.username%>"><%=current_user.username%></a></li>
+          <li><%= link_to('Logout', destroy_user_session_path, :method => :delete) %></li>
+        </ul>
+        <%else%>
+        <ul class="list-inline right">
+         <li><%= link_to('Login',new_user_session_path)%></li>
+         <li><%= link_to('Sign Up',new_user_registration_path)%></li>
+       </ul>
+       <%end%>
+     </ul>
+    </div>
+  </div>
+  <% flash.each do |key, value| %>
+        <div class="<%= flash_class(key) %>">
+              <%= value %>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+  <% end %>
+</div>
+<div class="container">
+  <h1>Personal Message to <%=@user.username%></h1>
+  <div id="pm_form">
+    <%= bootstrap_form_tag(url: '/#', layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10") do |f| %>
+      <div class="form-group">
+        <%= f.text_area :subject, data: { validation: 'length',validation_length:"min1",validation_help:"Subject of the message" } %>
+      </div>
+      <div class="form-group">
+        <%= f.text_area :message, class:"message_area",data: { validation: 'length',validation_length:"min1",validation_help:"The message of the message :P"}  %>
+      </div>
+      <div class="actions">
+        <%= f.submit "Send" %>
+      </div>
+    <% end %>
+  </div>
+</div>
+<script>
+$.validate({
+  lang: 'en',
+  modules : 'security',
+  onSuccess : function($form) {
+
+  },
+  onError : function($form) {
+    sweetAlert("Opps!", "Something Was Wrong", "warning");
+    return false; // IF FALSE Will stop the submission of the form
+  }
+});
+</script>

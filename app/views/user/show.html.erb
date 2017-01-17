@@ -52,6 +52,7 @@
   <h3 id="user_header_right">
     <%=@post_karma%> Post Karma<br>
     <%=@comment_karma%> Comment Karma
+
     <%if current_user==@user%>
       <br><%= link_to "Edit Account",edit_user_registration_path%>
     <%end%>
@@ -99,7 +100,8 @@
       </div>
 
     </div>
-  <%= render "subreddits/defaultsidebar" %>
+    <%= render "subreddits/defaultsidebar" %>
+
   </div>
 
 </div>

@@ -17,6 +17,12 @@ class UserMailer < ApplicationMailer
       mail(to:@post.user.email,subject:'New Comment')
     end
 
+    def new_reply(reply)
+      @reply=reply
+      @comment=Comment.find(reply.parent_id)
+      mail(to:@comment.user.email,subject:'New Reply')
+    end
+
     def mod_delete(reason,email,title,subreddit)
       @reason=reason
       @email=email

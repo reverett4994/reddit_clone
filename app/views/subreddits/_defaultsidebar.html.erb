@@ -1,7 +1,11 @@
+<%@all_subreddits=[]%>
+<%Subreddit.all.each do |sub|%>
+  <%@all_subreddits<<sub.name%>
+<%end%>
 <div class="hidden-xs hidden-sm col-md-3 sidebar">
   <div class="sidebar_search inner-addon left-addon">
     <%= bootstrap_form_tag(url:"/search", :method => :get) do |f| %>
-      <%= f.text_field :search,placeholder:"Search Subreddit",hide_label: true, icon: "search",class:"search" %>
+      <%= f.text_field :search,placeholder:"Search Subreddit",hide_label: true, icon: "search",class:"search", data: { suggestions:@all_subreddits.join(',')} %>
     <% end %>
     <h3 id="search_header" class="search_header">Search</h3>
   </div>
@@ -26,6 +30,18 @@
   <div id="subreddit_image_div">
     <%=image_tag("photo.jpg",id:"subreddit_image")%>
   </div>
+  <% if @user%>
+    <div id="user_mod_of">
+      <b> <%=@user.username%> IS MODERATOR OF</b>
+        <ul ><%@user.admin.subreddits.each do |sub|%>
+                <li><%=link_to sub.name,sub%></li>
+              <%end %>
+        </ul>
+      <%= link_to direct_message_path(user:@user),class:"pm_link" do %>
+        <%="Send #{@user.username} a direct message "%><span class="glyphicon glyphicon-envelope"></span>
+      <% end %>
+    </div>
+  <%end%>
   <%if user_signed_in?%>
     <%= link_to 'New Subreddit', new_subreddit_path,class:"btn btn-info new_post_btn btn-lg new_sub" %>
   <%else%>
@@ -37,6 +53,18 @@
 </div>
 
 <script>
+$.validate({
+  lang: 'en',
+  modules : 'security',
+  onSuccess : function($form) {
+
+  },
+  onError : function($form) {
+    sweetAlert("Opps!", "Something Was Wrong", "warning");
+    return false; // IF FALSE Will stop the submission of the form
+  }
+});
+
 $('.search').focus(function() {
   $("#search_header").text("");
   $(".sidebar_search").css({"border-color":"#ff4f00"});

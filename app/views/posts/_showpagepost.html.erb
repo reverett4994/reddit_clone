@@ -85,8 +85,10 @@
             <% if post.user != nil && post.user==current_user%>
             <%= link_to 'Delete', post, method: :delete, data: { behavior: 'delete' } %>
             <%end%>
-            <% if current_user.admin.subreddits.include? (post.subreddit)%>
-              <%= link_to 'Mod Delete', post, method: :delete, data: { behavior: 'mod_delete',title:post.title,subreddit:post.subreddit.name,user: (post.user.email unless post.user==nil) } %>
+            <%if user_signed_in?%>
+              <% if current_user.admin.subreddits.include? (post.subreddit)%>
+                <%= link_to 'Mod Delete', post, method: :delete, data: { behavior: 'mod_delete',title:post.title,subreddit:post.subreddit.name,user: (post.user.email unless post.user==nil) } %>
+              <%end%>
             <%end%>
           </div>
         </div>
