@@ -52,13 +52,14 @@
 <div class="container">
   <h1>Personal Message to <%=@user.username%></h1>
   <div id="pm_form">
-    <%= bootstrap_form_tag(url: '/#', layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10") do |f| %>
+    <%= bootstrap_form_tag(url: '/send-direct-message', layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10") do |f| %>
       <div class="form-group">
         <%= f.text_area :subject, data: { validation: 'length',validation_length:"min1",validation_help:"Subject of the message" } %>
       </div>
       <div class="form-group">
         <%= f.text_area :message, class:"message_area",data: { validation: 'length',validation_length:"min1",validation_help:"The message of the message :P"}  %>
       </div>
+        <%= f.hidden_field :recipient, value: @user.id %>
       <div class="actions">
         <%= f.submit "Send" %>
       </div>

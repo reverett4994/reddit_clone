@@ -26,6 +26,7 @@ Rails.application.routes.draw do
       get '/moddestroy' => 'posts#moddestroy'
       get '/commentmoddestroy' => 'comments#moddestroy'
       get '/direct-message' => 'user#direct_message'
+      post '/send-direct-message' => 'user#send_direct_message'
       post 'post/vote' =>'posts#vote'
       post 'comment/vote' =>'comments#vote'
 

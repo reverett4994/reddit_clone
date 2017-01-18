@@ -26,7 +26,13 @@ class SubredditsController < ApplicationController
     @ordered_posts = ActiveSupport::OrderedHash[*@posts_sorted.sort_by{|k,v| v}.reverse.flatten]
     @ordered_posts_keys= @ordered_posts.keys.paginate(:page => params[:page])
   end
-
+  #def controversial
+    # all post with total votes more than 10 each do
+      #karma=upvotes-downvotes
+    #sort by karm closest to 0
+    #sort again by most total votes help:http://stackoverflow.com/questions/1442546/ruby-sort-by-twice
+    # REMIDER CHANGE SIZE OF MOBILE SIDEBAR FOR 1080P SCREENS FIX MOD LINK ON MOBILE SIDEBAR
+  #end
   def top
     if params[:subreddit]==nil
       @focus=false

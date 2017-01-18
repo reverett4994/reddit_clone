@@ -12,11 +12,18 @@ class User < ActiveRecord::Base
   validates :username, length: { in: 2..25 }
   validates :email, format: { with: /\A([\w+\-].?)+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i,
     message: "please enter valid email" }
+  after_create :set_subreddits
   after_create :create_admin
   after_create :send_welcome_mail
   before_destroy :destroy_admin
   before_destroy :send_goodbye_mail
   before_destroy {|object| object.subreddits.clear}
+
+  def set_subreddits
+    Subreddit.default.default.each do |subreddit|
+        self.subreddits<<subreddit
+    end
+  end
   def create_admin
     Admin.create :user_id => self.id
   end

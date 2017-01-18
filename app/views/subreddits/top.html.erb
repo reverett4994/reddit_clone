@@ -41,7 +41,7 @@
        <%end%>
        <% if user_signed_in?%>
          <ul class="list-inline right header_user">
-          <li><a href="/user/<%=current_user.username%>"><%=current_user.username%></a></li>
+          <li><a href="/user/<%=current_user.username%>"><%=truncate(current_user.username, :length => 13) %></a></li>
           <li><%= link_to('Logout', destroy_user_session_path, :method => :delete) %></li>
         </ul>
         <%else%>
@@ -52,6 +52,8 @@
        <%end%>
      </ul>
     </div>
+    <%=render 'layouts/headermobilenav'%>
+
   </div>
   <% flash.each do |key, value| %>
         <div class="<%= flash_class(key) %>">

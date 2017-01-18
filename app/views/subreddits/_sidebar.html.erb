@@ -18,7 +18,7 @@
     <div class="sidebar_login">
       <h3>Sign In</h3>
       <%= bootstrap_form_for(:user, :url => session_path(:user)) do |f| %>
-        <%= f.text_field :email,placeholder:"Your Email",hide_label: true, icon: "user" %>
+        <%= f.text_field :username,placeholder:"Your Username",hide_label: true, icon: "user" %>
         <%= f.password_field :password,placeholder:"Your Password",hide_label: true %>
         <%= f.check_box :remember_me %>
         <%= f.submit 'Sign in' %>
@@ -75,6 +75,19 @@
   <%end%>
 </div>
 <script>
+
+$.validate({
+  lang: 'en',
+  modules : 'security',
+  onSuccess : function($form) {
+
+  },
+  onError : function($form) {
+    sweetAlert("Opps!", "Something Was Wrong", "warning");
+    return false; // IF FALSE Will stop the submission of the form
+  }
+});
+
 $('.dummy').click(function() {
   sweetAlert("Opps!", "You Need To Sign In to Post", "error");
 });

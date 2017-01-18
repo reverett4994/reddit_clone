@@ -38,4 +38,12 @@ class UserMailer < ApplicationMailer
       mail(to:@email,subject:'Mod Deleted your post')
     end
 
+    def direct_message(subject,message,sender,recipient)
+      @subject=subject
+      @message=message
+      @sender=sender
+      @recipient=recipient
+      mail(to:@recipient.email,subject:@subject)
+    end
+
 end
