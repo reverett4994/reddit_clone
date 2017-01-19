@@ -67,3 +67,5 @@ gem 'sweetalert-rails'
 gem 'jasny-bootstrap-rails'
 
 gem 'acts_as_commentable_with_threading'
+
+gem 'rails_12factor', group: :production
