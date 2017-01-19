@@ -26,13 +26,59 @@ class SubredditsController < ApplicationController
     @ordered_posts = ActiveSupport::OrderedHash[*@posts_sorted.sort_by{|k,v| v}.reverse.flatten]
     @ordered_posts_keys= @ordered_posts.keys.paginate(:page => params[:page])
   end
-  #def controversial
-    # all post with total votes more than 10 each do
-      #karma=upvotes-downvotes
-    #sort by karm closest to 0
-    #sort again by most total votes help:http://stackoverflow.com/questions/1442546/ruby-sort-by-twice
-    # REMIDER CHANGE SIZE OF MOBILE SIDEBAR FOR 1080P SCREENS FIX MOD LINK ON MOBILE SIDEBAR
-  #end
+  def controversial
+    
+    if params[:subreddit]==nil
+      @focus=false
+      if user_signed_in?
+        @subreddits=current_user.subreddits
+      else
+        @subreddits=Subreddit.default
+      end
+      @all_posts=[]
+      @subreddits.each do |subreddit|
+        @all_posts+=subreddit.posts
+      end
+      @posts=[]
+      @all_posts.each do |post|
+        if post.votes_for.size>1
+          @posts<<post
+        end
+      end
+      @posts_sorted={}
+      @posts.each do |post|
+        if (post.get_upvotes.size)-(post.get_dislikes.size) > -1
+          @posts_sorted[post]=(post.get_upvotes.size)-(post.get_dislikes.size)
+        else
+          karma= (post.get_upvotes.size)-(post.get_dislikes.size)
+          karma = karma.abs
+          @posts_sorted[post]=karma
+        end
+      end
+      @ordered_posts = ActiveSupport::OrderedHash[*@posts_sorted.sort_by{|k,v| v}.flatten]
+      @ordered_posts_keys= @ordered_posts.keys.paginate(:page => params[:page])
+    else
+      @focus=params[:subreddit]
+      @subreddit=Subreddit.friendly.find(params[:subreddit])
+      @posts=[]
+      @subreddits=Subreddit.where("name LIKE ?",params[:subreddit])
+      @subreddits.each do |subreddit|
+        @posts+=subreddit.posts
+      end
+      @posts_sorted={}
+      @posts.each do |post|
+        if (post.get_upvotes.size)-(post.get_dislikes.size) > -1
+          @posts_sorted[post]=(post.get_upvotes.size)-(post.get_dislikes.size)
+        else
+          karma= (post.get_upvotes.size)-(post.get_dislikes.size)
+          karma = karma.abs
+          @posts_sorted[post]=karma
+        end
+      end
+      @ordered_posts = ActiveSupport::OrderedHash[*@posts_sorted.sort_by{|k,v| v}.flatten]
+      @ordered_posts_keys= @ordered_posts.keys.paginate(:page => params[:page])
+    end
+  end
   def top
     if params[:subreddit]==nil
       @focus=false

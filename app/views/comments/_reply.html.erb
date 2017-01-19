@@ -25,10 +25,10 @@
     <div class="comment">
       <a href="/user/<%=comment.user.username%>"><%=comment.user.username%></a>
       <% if comment.user==Post.find(comment.commentable_id).user%>
-        <p class="op"> &nbsp;OP&nbsp; </p>
+        <p class="op"data-toggle="tooltip" title="Original Poster"> &nbsp;OP&nbsp; </p>
       <%end%>
       <% if comment.user.admin.subreddits.include? (Post.find(comment.commentable_id).subreddit)%>
-        <p class="mod"> &nbsp;M&nbsp; </p>
+        <p class="mod"data-toggle="tooltip" title="Moderator"> &nbsp;M&nbsp; </p>
       <%end%>
       <p class="comment_karma" id=<%=comment.id%>><%=karma%> points</p>
 
@@ -107,17 +107,10 @@ $.validate({
     return false; // IF FALSE Will stop the submission of the form
   }
 });
-</script>
 
-
-
-
-
-
-
-
-
-<script>
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+});
 
 $('.upvote').click(function(e) {
 

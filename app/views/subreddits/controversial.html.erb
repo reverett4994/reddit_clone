@@ -7,24 +7,24 @@
       <%end%>
       <ul class="nav nav-pills">
         <% if @focus != false%>
-          <li><%=link_to "Top",top_path(subreddit:@focus)%></li>
+          <li class="active"><%=link_to "Top",top_path(subreddit:@focus)%></li>
         <%else%>
          <li><a href="/top">Top</a></li>
         <%end%>
         <% if @focus != false%>
-          <li class="active"><%=link_to "New",new_path(subreddit:@focus)%></li>
+          <li><%=link_to "New",new_path(subreddit:@focus)%></li>
         <%else%>
-         <li class="active"><a href="/new">New</a></li>
+         <li><a href="/new">New</a></li>
         <%end%>
        <li><a href="/all">All</a></li>
-       <li id="optional"><a href="/controversial">Controversial</a></li>
+       <li id="optional" class="active"><a href="/controversial">Controversial</a></li>
        <% if user_signed_in?%>
        <li class="dropdown">
          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Your Subreddits
          <span class="caret"></span></a>
          <ul class="dropdown-menu">
-           <li><%current_user.subreddits.each do |subreddit| %></li>
-            <li><%= link_to subreddit.name, subreddit %></li>
+           <%current_user.subreddits.each do |subreddit| %>
+              <li><%= link_to subreddit.name, subreddit %></li>
            <%end%>
          </ul>
        </li>
@@ -40,12 +40,12 @@
        </li>
        <%end%>
        <% if user_signed_in?%>
-         <ul class="list-inline right">
+         <ul class="list-inline right header_user">
           <li><a href="/user/<%=current_user.username%>"><%=truncate(current_user.username, :length => 13) %></a></li>
           <li><%= link_to('Logout', destroy_user_session_path, :method => :delete) %></li>
         </ul>
         <%else%>
-        <ul class="list-inline right">
+        <ul class="list-inline right header_user">
          <li><%= link_to('Login',new_user_session_path)%></li>
          <li><%= link_to('Sign Up',new_user_registration_path)%></li>
        </ul>
@@ -53,6 +53,7 @@
      </ul>
     </div>
     <%=render 'layouts/headermobilenav'%>
+
   </div>
   <% flash.each do |key, value| %>
         <div class="<%= flash_class(key) %>">
@@ -60,23 +61,25 @@
               <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         </div>
   <% end %>
+  <h3 style="margin-bottom:25px;color:#666;">Note: post must have minimum of 2 total votes</h3>
   <div class="row">
     <div class="col-md-9 col-xs-12 ">
-  <% @ordered_posts.each_with_index do |post,counter| %>
-    <%= render 'posts/showpost',post: post,counter:@ordered_posts.offset + counter + 1 %>
-    <%=  %>
-  <%end%>
-  <%= will_paginate @ordered_posts, :page_links => false %>
-  </div>
+      <% @ordered_posts_keys.each_with_index do |post,counter| %>
+        <%= render 'posts/showpost',post: post,counter:@ordered_posts_keys.offset + counter + 1 %>
+      <%end%>
+      <%= will_paginate @ordered_posts_keys, :page_links => false %>
+    </div>
+
+
 
   <%if @subreddit!=nil%>
     <%= render "sidebar" %>
   <%else%>
     <%= render "defaultsidebar" %>
   <%end%>
-  </div>
 </div>
 
+</div>
 
 <%if @subreddit!=nil%>
   <div id='slider'>

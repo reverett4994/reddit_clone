@@ -22,6 +22,7 @@ Rails.application.routes.draw do
       get '/top' =>'subreddits#top'
       get '/new' =>'subreddits#newist'
       get '/all' => 'subreddits#all'
+      get '/controversial' => 'subreddits#controversial'
       get '/search' => 'subreddits#search'
       get '/moddestroy' => 'posts#moddestroy'
       get '/commentmoddestroy' => 'comments#moddestroy'
