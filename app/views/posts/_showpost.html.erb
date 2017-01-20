@@ -5,18 +5,18 @@
       <p class="counter"><%=counter%></p>
       <% if user_signed_in?%>
         <div class="vote_btn">
-        <%= link_to "#", class: "btn btn-default upvote #{'voted' if current_user.voted_up_on? post} #{'disabled' unless user_signed_in?}",id:post.id do %>
+        <%= link_to "javascript:void(0)", class: "btn btn-default upvote #{'voted' if current_user.voted_up_on? post} #{'disabled' unless user_signed_in?}",id:post.id do %>
             <i class="glyphicon glyphicon-arrow-up"></i>
         <% end %><br><p class="karma" id=<%=post.id%>><%=karma%></p><br>
-        <%= link_to "#", class: "btn btn-default downvote #{'voted' if current_user.voted_down_on? post} #{'disabled' unless user_signed_in?}",id:post.id do %>
+        <%= link_to "javascript:void(0)", class: "btn btn-default downvote #{'voted' if current_user.voted_down_on? post} #{'disabled' unless user_signed_in?}",id:post.id do %>
             <i class="glyphicon glyphicon-arrow-down"></i>
         <% end %>
       </div>
       <%else%>
-        <%= link_to "#", class: "btn btn-default upvote #{'disabled' unless user_signed_in?}",id:post.id do %>
+        <%= link_to "javascript:void(0)", class: "btn btn-default upvote #{'disabled' unless user_signed_in?}",id:post.id do %>
             <i class="glyphicon glyphicon-arrow-up"></i>
         <% end %><br><p class="karma" id=<%=post.id%>><%=karma%></p><br>
-        <%= link_to "#", class: "btn btn-default downvote #{'disabled' unless user_signed_in?}",id:post.id do %>
+        <%= link_to "javascript:void(0)", class: "btn btn-default downvote #{'disabled' unless user_signed_in?}",id:post.id do %>
             <i class="glyphicon glyphicon-arrow-down"></i>
         <% end %>
       <%end%>
