@@ -23,7 +23,7 @@
 
     </div>
     <div class="comment single_comment">
-      <a href="/user/<%=comment.user.username%>"><%=comment.user.username%></a>
+      <a href="/user/<%=comment.user.username%>"><%=truncate(comment.user.username, :length => 5) %></a>
       <% if comment.user==Post.find(comment.commentable_id).user%>
         <p class="op"> &nbsp;OP&nbsp; </p>
       <%end%>
@@ -56,7 +56,7 @@
       <%end%>
 
       <br>
-      <p><%= comment.body %><br></p>
+      <p class="comment_body"><%= comment.body %><br></p>
       <%if user_signed_in?%>
         <div class="comment-nav">
           <%if current_user==comment.user%>

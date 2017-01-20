@@ -7,7 +7,7 @@
     <%= bootstrap_form_tag(url:"/search", :method => :get) do |f| %>
       <%= f.text_field :search,placeholder:"Search Subreddit",hide_label: true, icon: "search",class:"search", data: { suggestions:@all_subreddits.join(',')} %>
     <% end %>
-    <h3 id="search_header">Search</h3>
+
   </div>
   <%if user_signed_in?%>
     <%if current_user.admin.subreddits.include? @subreddit%>

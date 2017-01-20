@@ -126,9 +126,10 @@ body{
   display: inline-block;
   width:80%;
   min-height: 90px;
+
 }
 #post_time{
-  min-width: 500px;
+
 }
 .post_container{
   clear: both;
@@ -354,6 +355,8 @@ body{
   padding: 20px;
   margin-bottom: 100px;
   box-shadow: 2px 12px 20px 0px rgba(0,0,0,.5);
+  width: 55%;
+  float:right;
 }
 
 /*************************************** MOBILE SIDEBAR ************************************************* */
@@ -584,6 +587,18 @@ body{
 #comment_time{
   display: inline-block;
   margin-left: 10px;
+}
+@media only screen and (max-width: 400px) {
+  #comment_time{
+    display: block;
+    margin-left: 0;
+    color: #666;
+    margin-bottom: -10px;
+    font-size: 12px;
+  }
+  .comment_body{
+    margin-left: 20px;
+  }
 }
 .comments-header h4{
   display: inline-block;
