@@ -7,7 +7,7 @@
 
     <p id="show_points">
 
-      Percentage That Like It: <%= (@post.get_upvotes.size/@post.votes_for.size)*100%>% |
+      Percentage That Like It: <%= if @post.votes_for.size >0 then (@post.get_upvotes.size/@post.votes_for.size)*100 else "-" end%>% |
       total: <%= @post.votes_for.size%> votes |
       upvotes: <%= @post.get_upvotes.size%> |
       downvotes: <%= @post.get_downvotes.size%>
