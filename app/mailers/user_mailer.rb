@@ -1,5 +1,5 @@
 class UserMailer < ApplicationMailer
-    default from: 'reddit_clone.com'
+    default from: 'Reddit Clone'
 
     def welcome(user)
       @user=user
